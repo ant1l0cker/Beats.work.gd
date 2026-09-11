@@ -589,6 +589,49 @@
       border-color: var(--accent);
     }
 
+    /* ON-LOCATION BADGE — highly visible */
+    .on-location-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #000;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      margin-bottom: 20px;
+      border-radius: 0;
+      line-height: 1.2;
+      box-shadow: 0 0 0 1px rgba(202, 255, 0, 0.3);
+      animation: pulse-accent 2s infinite;
+    }
+
+    .on-location-badge span {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    @keyframes pulse-accent {
+      0% { box-shadow: 0 0 0 1px rgba(202, 255, 0, 0.3); }
+      50% { box-shadow: 0 0 0 5px rgba(202, 255, 0, 0.1); }
+      100% { box-shadow: 0 0 0 1px rgba(202, 255, 0, 0.3); }
+    }
+
+    .theme-red .on-location-badge {
+      box-shadow: 0 0 0 1px rgba(255, 45, 85, 0.3);
+    }
+    .theme-red .on-location-badge {
+      animation: pulse-accent-red 2s infinite;
+    }
+    @keyframes pulse-accent-red {
+      0% { box-shadow: 0 0 0 1px rgba(255, 45, 85, 0.3); }
+      50% { box-shadow: 0 0 0 5px rgba(255, 45, 85, 0.1); }
+      100% { box-shadow: 0 0 0 1px rgba(255, 45, 85, 0.3); }
+    }
+
     .service-num {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 80px;
@@ -705,6 +748,37 @@
       color: var(--accent);
       display: block;
       margin-top: 4px;
+    }
+
+    /* NEW: travel fee notice inside pricing table */
+    .travel-fee-note {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(202, 255, 0, 0.06);
+      border: 1px solid rgba(202, 255, 0, 0.2);
+      padding: 18px 24px;
+      margin-top: 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      line-height: 1.5;
+    }
+
+    .travel-fee-note .emoji-big {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .travel-fee-note strong {
+      color: var(--white);
+      background: var(--accent);
+      color: #000;
+      padding: 2px 10px;
+      font-weight: 700;
+      margin: 0 4px;
+      display: inline-block;
     }
 
     /* ABOUT */
@@ -952,8 +1026,6 @@
       font-size: 10px;
       color: var(--muted);
       text-decoration: none;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
       transition: color 0.2s;
     }
 
@@ -962,588 +1034,379 @@
     }
 
     /* RESPONSIVE */
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       nav {
-        padding: 20px 24px;
+        padding: 16px 24px;
+        flex-wrap: wrap;
       }
       nav ul {
-        display: none;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-top: 8px;
       }
       .hero {
         padding: 0 24px 60px;
       }
-      .hero-stats {
-        gap: 24px;
-      }
       section {
-        padding: 72px 24px;
+        padding: 60px 24px;
       }
       .services-grid {
         grid-template-columns: 1fr;
       }
       .about-grid {
         grid-template-columns: 1fr;
+        gap: 40px;
       }
       .pricing-row {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
       }
-      .pricing-row.header .pricing-cell:nth-child(n+3),
-      .pricing-row .pricing-cell:nth-child(n+3) {
-        display: none;
+      .pricing-cell {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .pricing-cell:last-child {
+        border-bottom: none;
       }
       footer {
         flex-direction: column;
         gap: 16px;
         text-align: center;
       }
-      #player {
-        padding: 12px 16px;
-      }
       .social-fixed {
-        left: 12px;
+        display: none;
       }
-      .beats-grid {
-        grid-template-columns: 1fr;
+      .theme-toggle {
+        top: 30%;
       }
-      .contact-title {
-        font-size: 48px;
+      .yt-btn {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
 
-    /* Scroll reveal */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    audio {
-      display: none;
-    }
-
-    .section-bg-img {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      opacity: 0;
-      transition: opacity 1s ease;
-      filter: grayscale(100%) brightness(0.3);
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .section-bg-img.loaded {
-      opacity: 1;
-    }
-
-    #beats,
-    #sessions,
-    #about,
-    #pricing,
-    #contact {
-      position: relative;
-      overflow: hidden;
-    }
-
-    #beats>*:not(.section-bg-img),
-    #sessions>*:not(.section-bg-img),
-    #about>*:not(.section-bg-img),
-    #pricing>*:not(.section-bg-img),
-    #contact>*:not(.section-bg-img) {
-      position: relative;
-      z-index: 1;
-    }
-
-    .about-ambient {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      z-index: 0;
-    }
-
-    .about-ambient img {
-      position: absolute;
-      width: 320px;
-      height: 420px;
-      object-fit: cover;
-      filter: grayscale(100%) brightness(0.15) contrast(1.2);
-      border-radius: 0;
-      pointer-events: none;
-    }
-
-    .about-ambient img:nth-child(1) {
-      right: -60px;
-      top: 60px;
-      opacity: 0.6;
-    }
-    .about-ambient img:nth-child(2) {
-      left: -40px;
-      bottom: 40px;
-      opacity: 0.4;
-      width: 240px;
-      height: 300px;
-    }
-
-    .sessions-strip {
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 38%;
-      overflow: hidden;
-      z-index: 0;
-    }
-
-    .sessions-strip img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(100%) brightness(0.18) contrast(1.1);
-    }
-
-    #contact .section-bg-img {
-      filter: grayscale(100%) brightness(0.15) contrast(1.3);
-    }
-
-    /* Retainer policy box */
-    .policy-box {
-      background: var(--bg3);
-      border-left: 3px solid var(--accent);
-      padding: 24px 32px;
-      margin-top: 40px;
-      max-width: 700px;
-      border-radius: 0 4px 4px 0;
-    }
-
-    .policy-box h4 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px;
-      letter-spacing: 0.06em;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .policy-box ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .policy-box ul li {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.8;
-      padding-left: 20px;
-      position: relative;
-    }
-
-    .policy-box ul li::before {
-      content: '›';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-weight: bold;
-    }
-
-    /* Travel add-on highlight */
-    .travel-addon {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      padding: 20px 24px;
-      margin-top: 16px;
-      border-radius: 4px;
-    }
-
-    .travel-addon strong {
-      color: var(--accent);
+    @media (max-width: 600px) {
+      .hero-title {
+        font-size: 64px;
+      }
+      .hero-stats {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .service-card {
+        padding: 32px 24px;
+      }
     }
   </style>
 </head>
 <body>
-
-  <!-- THEME TOGGLE SIDE TABS -->
+  <!-- THEME TOGGLE -->
   <div class="theme-toggle">
-    <button class="btn-green" onclick="setTheme('green')" title="Green Theme"></button>
-    <button class="btn-red" onclick="setTheme('red')" title="Red Theme"></button>
-  </div>
-
-  <!-- SOCIAL FIXED -->
-  <div class="social-fixed">
-    <a href="https://wa.me/254110493736" target="_blank" class="social-pill" title="WhatsApp">
-      <span class="social-icon">💬</span>
-      <span class="social-text">+254 110 493 736</span>
-    </a>
-    <a href="https://instagram.com/lehmanntf" target="_blank" class="social-pill" title="Instagram">
-      <span class="social-icon">📷</span>
-      <span class="social-text">@lehmanntf</span>
-    </a>
+    <button class="btn-green" onclick="document.body.classList.remove('theme-red')" title="Green theme"></button>
+    <button class="btn-red" onclick="document.body.classList.add('theme-red')" title="Red theme"></button>
   </div>
 
   <!-- NAV -->
   <nav>
     <a href="#" class="logo">PROD BY <span>LEHMANN</span></a>
     <ul>
-      <li><a href="#beats">Beats ▶</a></li>
-      <li><a href="#sessions">Retainers</a></li>
-      <li><a href="#pricing">Plans</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact" class="nav-book">Start Retainer ↗</a></li>
+      <li><a href="#beats">BEATS</a></li>
+      <li><a href="#sessions">SESSIONS</a></li>
+      <li><a href="#pricing">PRICING</a></li>
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#contact" class="nav-book">BOOK NOW</a></li>
     </ul>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg">
-      <video class="hero-video" autoplay muted loop playsinline poster="https://images.pexels.com/photos/1626481/pexels-photo-1626481.jpeg?auto=compress&cs=tinysrgb&w=1600">
-        <source src="https://player.vimeo.com/external/434045526.hd.mp4?s=ef0a1f84c08a5090d1e5c90de94e5736&profile_id=175" type="video/mp4">
-      </video>
-      <div class="hero-slides" id="hero-slides">
-        <div class="hero-slide" style="background-image:url('https://images.pexels.com/photos/1626481/pexels-photo-1626481.jpeg?auto=compress&cs=tinysrgb&w=1600')"></div>
-        <div class="hero-slide" style="background-image:url('https://images.pexels.com/photos/164693/pexels-photo-164693.jpeg?auto=compress&cs=tinysrgb&w=1600')"></div>
-        <div class="hero-slide" style="background-image:url('https://images.pexels.com/photos/1537638/pexels-photo-1537638.jpeg?auto=compress&cs=tinysrgb&w=1600')"></div>
-        <div class="hero-slide" style="background-image:url('https://images.pexels.com/photos/3756767/pexels-photo-3756767.jpeg?auto=compress&cs=tinysrgb&w=1600')"></div>
-        <div class="hero-slide" style="background-image:url('https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?auto=compress&cs=tinysrgb&w=1600')"></div>
-      </div>
+      <div class="hero-slides" id="heroSlides"></div>
       <div class="hero-overlay"></div>
+      <div class="grain"></div>
     </div>
-    <div class="grain"></div>
-
-    <svg class="hero-arrow" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M40 40 L160 40 L160 80 L80 80 L80 160 L40 160 Z" fill="white" />
-      <path d="M100 100 L160 100 L160 160 L120 160 L120 140 L140 140 L140 120 L100 120 Z" fill="#caff00" />
-    </svg>
-
     <div class="hero-content">
-      <div class="hero-eyebrow">NAIROBI · KENYA — EST. 2020</div>
-      <h1 class="hero-title">
-        PROD BY<br><span class="accent">LEHMANN</span>
-      </h1>
-      <p class="hero-sub">TRAP · TRAPSOUL · RNB</p>
+      <div class="hero-eyebrow">TRAP · TRAPSOUL · RNB</div>
+      <h1 class="hero-title">PROD BY <span class="accent">LEHMANN</span></h1>
+      <p class="hero-sub">BEATS THAT HIT DIFFERENT</p>
       <div class="hero-stats">
         <div class="stat">
-          <div class="stat-num">4+</div>
-          <div class="stat-label">Years Crafting</div>
+          <div class="stat-num">200+</div>
+          <div class="stat-label">Beats Sold</div>
         </div>
         <div class="stat">
-          <div class="stat-num">2</div>
-          <div class="stat-label">Retainer Plans</div>
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Artists Worked With</div>
         </div>
         <div class="stat">
-          <div class="stat-num">5–10</div>
-          <div class="stat-label">Tracks / Month</div>
+          <div class="stat-num">5★</div>
+          <div class="stat-label">Client Rating</div>
         </div>
       </div>
       <div class="hero-ctas">
-        <a href="#pricing" class="btn-primary">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-          View Plans
-        </a>
-        <a href="#contact" class="btn-outline">Start Retainer ↗</a>
+        <a href="#beats" class="btn-primary">LISTEN TO BEATS →</a>
+        <a href="#contact" class="btn-outline">BOOK A SESSION</a>
       </div>
+    </div>
+    <div class="hero-arrow">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M40 160 L160 40 M160 40 L160 120 M160 40 L80 40" stroke="white" stroke-width="2"/>
+      </svg>
     </div>
   </section>
 
   <!-- TICKER -->
   <div class="ticker">
-    <div class="ticker-inner" id="ticker-inner">
-      <span class="ticker-item">PROD BY LEHMANN</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">MONTHLY RETAINER</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">TRAP · TRAPSOUL · RNB</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">5–10 TRACKS / MONTH</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">NAIROBI · KENYA</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">START YOUR RETAINER</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">KES 3,000 / MONTH</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">KES 5,000 / MONTH</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">PROD BY LEHMANN</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">MONTHLY RETAINER</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">TRAP · TRAPSOUL · RNB</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">5–10 TRACKS / MONTH</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">NAIROBI · KENYA</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">START YOUR RETAINER</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">KES 3,000 / MONTH</span>
-      <span class="ticker-item">·</span>
-      <span class="ticker-item">KES 5,000 / MONTH</span>
-      <span class="ticker-item">·</span>
+    <div class="ticker-inner">
+      <span class="ticker-item">🔥 NEW BEATS EVERY WEEK</span>
+      <span class="ticker-item">🎧 CUSTOM PRODUCTION</span>
+      <span class="ticker-item">💼 MIXING & MASTERING</span>
+      <span class="ticker-item">📍 ON-LOCATION SESSIONS +1000 KES</span>
+      <span class="ticker-item">🔥 NEW BEATS EVERY WEEK</span>
+      <span class="ticker-item">🎧 CUSTOM PRODUCTION</span>
+      <span class="ticker-item">💼 MIXING & MASTERING</span>
+      <span class="ticker-item">📍 ON-LOCATION SESSIONS +1000 KES</span>
     </div>
   </div>
 
-  <!-- BEATS / YOUTUBE SECTION -->
+  <!-- BEATS SECTION -->
   <section id="beats">
-    <div class="section-bg-img" style="background-image:url('https://images.pexels.com/photos/4571219/pexels-photo-4571219.jpeg?auto=compress&cs=tinysrgb&w=1600');background-attachment:fixed;"></div>
-    <div class="section-label">BEAT CATALOG</div>
-    <h2 class="section-title reveal">HEAR THE<br>BEATS</h2>
-    <p style="color:var(--muted);font-size:14px;max-width:520px;line-height:1.8;margin-bottom:56px;" class="reveal">
-      All my beats — Trap, Trapsoul, and RNB — are posted on YouTube.
-      Hit the button below to browse the full catalog, preview beats, and find your sound.
-      Retainer subscribers get direct access to stems and exclusive releases.
-    </p>
-
-    <div class="yt-cta-wrap reveal">
-      <a href="http://www.youtube.com/@lehmanntf" target="_blank" class="yt-btn">
-        <span class="yt-btn-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    <div class="section-label">01 / CATALOG</div>
+    <h2 class="section-title">BEAT CATALOG</h2>
+    <div class="yt-cta-wrap" style="margin-top:40px;">
+      <a href="https://youtube.com/@prodbylehmann" target="_blank" class="yt-btn">
+        <div class="yt-btn-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M23.5 6.2c-.3-1.2-1.2-2.1-2.4-2.4C18.9 3.2 12 3.2 12 3.2s-6.9 0-9.1.6C1.7 4.1.8 5 .5 6.2 0 8.4 0 12 0 12s0 3.6.5 5.8c.3 1.2 1.2 2.1 2.4 2.4 2.2.6 9.1.6 9.1.6s6.9 0 9.1-.6c1.2-.3 2.1-1.2 2.4-2.4.5-2.2.5-5.8.5-5.8s0-3.6-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/>
           </svg>
-        </span>
-        <span class="yt-btn-label">
-          <span class="yt-btn-top">Watch Beats on YouTube</span>
-          <span class="yt-btn-sub">@lehmanntf · Full Catalog</span>
-        </span>
-        <span class="yt-btn-arrow">↗</span>
+        </div>
+        <div class="yt-btn-label">
+          <div class="yt-btn-top">LISTEN ON YOUTUBE</div>
+          <div class="yt-btn-sub">200+ BEATS · NEW UPLOADS WEEKLY</div>
+        </div>
+        <div class="yt-btn-arrow">↗</div>
       </a>
-
-      <div class="yt-meta reveal">
-        <div class="yt-meta-item">
-          <span class="yt-meta-icon">🎧</span>
-          Trap · Trapsoul · RNB
-        </div>
-        <div class="yt-meta-item">
-          <span class="yt-meta-icon">🔥</span>
-          New beats posted regularly
-        </div>
-        <div class="yt-meta-item">
-          <span class="yt-meta-icon">💬</span>
-          Retainer subscribers get stems + exclusives
-        </div>
+      <div class="yt-meta">
+        <div class="yt-meta-item"><span class="yt-meta-icon">🎵</span> Trap / Trapsoul / RNB</div>
+        <div class="yt-meta-item"><span class="yt-meta-icon">⚡</span> Instant Delivery</div>
+        <div class="yt-meta-item"><span class="yt-meta-icon">📄</span> Lease & Exclusive Rights</div>
       </div>
     </div>
   </section>
 
-  <!-- RETAINER PLANS (formerly SESSIONS) -->
+  <!-- SESSIONS / SERVICES -->
   <section id="sessions">
-    <div class="section-bg-img" style="background-image:url('https://images.pexels.com/photos/3831629/pexels-photo-3831629.jpeg?auto=compress&cs=tinysrgb&w=1600');"></div>
-    <div class="sessions-strip"><img src="https://images.pexels.com/photos/3756767/pexels-photo-3756767.jpeg?auto=compress&cs=tinysrgb&w=800" alt="studio" loading="lazy"></div>
-    <div class="section-label">MONTHLY RETAINER</div>
-    <h2 class="section-title reveal">PICK YOUR<br>PLAN</h2>
+    <div class="section-label">02 / SERVICES</div>
+    <h2 class="section-title">STUDIO SESSIONS</h2>
 
-    <div class="services-grid reveal">
+    <div class="services-grid">
+      <!-- CARD 1 — RECORDING -->
       <div class="service-card">
-        <span class="service-num">01</span>
-        <span class="service-icon">// STARTER</span>
-        <div class="service-name">Starter Retainer</div>
-        <p class="service-desc">Perfect for emerging artists and solo creators. Get up to 5 fully produced tracks per month with direct feedback and fast turnaround.</p>
-        <div class="service-price">KES 3,000</div>
-        <div class="service-price-label">Per Month · Up to 5 Tracks</div>
-        <a href="https://wa.me/254110493736?text=Hey%20Lehmann%2C%20I%20want%20to%20start%20the%20Starter%20Retainer%20(KES%203%2C000%2Fmonth%20-%205%20tracks)" target="_blank" class="btn-primary" style="margin-top:8px;">
-          Start Retainer ↗
-        </a>
+        <div class="service-num">01</div>
+        <!-- ⚡ ON LOCATION BADGE -->
+        <div class="on-location-badge"><span>📍</span> ON-LOCATION? +1000 KES</div>
+        <div class="service-icon">🎙️ REC</div>
+        <h3 class="service-name">RECORDING SESSION</h3>
+        <p class="service-desc">Full recording session with professional engineer. Get your vocals tracked, comped, and ready for mixing. Industry-standard gear and acoustically treated room.</p>
+        <div class="service-price">2,500 KES</div>
+        <div class="service-price-label">PER HOUR · STUDIO</div>
+        <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px;">BOOK SESSION →</a>
       </div>
 
+      <!-- CARD 2 — MIXING -->
       <div class="service-card">
-        <span class="service-num">02</span>
-        <span class="service-icon">// PRO</span>
-        <div class="service-name">Pro Retainer</div>
-        <p class="service-desc">For serious artists and groups building a full body of work. Up to 10 tracks per month, priority turnaround, and stems included.</p>
-        <div class="service-price">KES 5,000</div>
-        <div class="service-price-label">Per Month · Up to 10 Tracks</div>
-        <a href="https://wa.me/254110493736?text=Hey%20Lehmann%2C%20I%20want%20to%20start%20the%20Pro%20Retainer%20(KES%205%2C000%2Fmonth%20-%2010%20tracks)" target="_blank" class="btn-primary" style="margin-top:8px;">
-          Start Retainer ↗
-        </a>
+        <div class="service-num">02</div>
+        <!-- ⚡ ON LOCATION BADGE -->
+        <div class="on-location-badge"><span>📍</span> ON-LOCATION? +1000 KES</div>
+        <div class="service-icon">🎚️ MIX</div>
+        <h3 class="service-name">MIXING & MASTERING</h3>
+        <p class="service-desc">Professional mix and master to make your track radio-ready. Balanced, loud, and clean — competitive with industry releases. 2 revisions included.</p>
+        <div class="service-price">5,000 KES</div>
+        <div class="service-price-label">PER SONG</div>
+        <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px;">BOOK SESSION →</a>
       </div>
-    </div>
 
-    <!-- Policy Box -->
-    <div class="policy-box reveal" style="margin-top:48px;">
-      <h4>📋 SUBSCRIPTION TERMS</h4>
-      <ul>
-        <li><strong>Billing Cycle:</strong> Subscription runs from the 1st to the 7th of each month. New artists must pay before work begins.</li>
-        <li>One subscription covers either one solo artist or one group/band of up to 3 members.</li>
-        <li>A group of up to three members counts as one artist account.</li>
-        <li>If the monthly track limit is reached, additional tracks are billed separately at <strong>KES 800 per track</strong>.</li>
-        <li><strong>On-location recording:</strong> If you'd like me to visit your place and record there, add <strong>KES 1,000</strong> to your monthly subscription.</li>
-      </ul>
-    </div>
+      <!-- CARD 3 — PRODUCTION -->
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <!-- ⚡ ON LOCATION BADGE -->
+        <div class="on-location-badge"><span>📍</span> ON-LOCATION? +1000 KES</div>
+        <div class="service-icon">🎹 PROD</div>
+        <h3 class="service-name">CUSTOM PRODUCTION</h3>
+        <p class="service-desc">Bespoke beat crafted around your sound and reference tracks. Full stems, project file, and exclusive rights. You keep 100% of your masters.</p>
+        <div class="service-price">10,000 KES</div>
+        <div class="service-price-label">PER BEAT · EXCLUSIVE</div>
+        <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px;">BOOK SESSION →</a>
+      </div>
 
-    <!-- Travel Add-on -->
-    <div class="travel-addon reveal" style="margin-top:16px;">
-      <p style="font-size:13px;color:var(--muted);line-height:1.6;">
-        🎤 <strong>On-location recording add-on:</strong> KES 1,000/month — I'll come to your studio or space and handle the recording there.
-      </p>
+      <!-- CARD 4 — BUNDLE -->
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <!-- ⚡ ON LOCATION BADGE -->
+        <div class="on-location-badge"><span>📍</span> ON-LOCATION? +1000 KES</div>
+        <div class="service-icon">📦 BUNDLE</div>
+        <h3 class="service-name">FULL PROJECT</h3>
+        <p class="service-desc">Beat + recording + mix & master. Everything you need to drop a single. Best value for artists who want a polished, release-ready track.</p>
+        <div class="service-price">15,000 KES</div>
+        <div class="service-price-label">COMPLETE PACKAGE</div>
+        <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px;">BOOK SESSION →</a>
+      </div>
     </div>
   </section>
 
-  <!-- PRICING TABLE (RETAINER PLANS) -->
+  <!-- PRICING TABLE -->
   <section id="pricing">
-    <div class="section-bg-img" style="background-image:url('https://images.pexels.com/photos/1540406/pexels-photo-1540406.jpeg?auto=compress&cs=tinysrgb&w=1600');"></div>
-    <div class="section-label">RETAINER PLANS</div>
-    <h2 class="section-title reveal">CHOOSE YOUR<br>MONTHLY RETAINER</h2>
-    <p style="color:var(--muted);font-size:13px;margin-bottom:0;line-height:1.7;max-width:600px;" class="reveal">
-      Subscribe monthly and get consistent production delivered straight to you. Upgrade or downgrade anytime.
-    </p>
+    <div class="section-label">03 / PRICING</div>
+    <h2 class="section-title">RATES & PACKAGES</h2>
 
-    <div class="pricing-table reveal" style="margin-top:48px;">
+    <div class="pricing-table">
       <div class="pricing-row header">
-        <div class="pricing-cell">Plan</div>
-        <div class="pricing-cell">Monthly Price</div>
-        <div class="pricing-cell">Tracks / Month</div>
+        <div class="pricing-cell">SERVICE</div>
+        <div class="pricing-cell">DESCRIPTION</div>
+        <div class="pricing-cell">PRICE</div>
       </div>
       <div class="pricing-row">
-        <div class="pricing-cell highlight">Starter Retainer</div>
-        <div class="pricing-cell"><span class="price-big">KES 3,000</span></div>
-        <div class="pricing-cell" style="color:var(--muted);">5 tracks</div>
+        <div class="pricing-cell highlight">Recording (Studio)</div>
+        <div class="pricing-cell">Per hour · Engineer included</div>
+        <div class="pricing-cell"><span class="price-big">2,500 KES</span></div>
       </div>
       <div class="pricing-row">
-        <div class="pricing-cell highlight">Pro Retainer</div>
-        <div class="pricing-cell"><span class="price-big">KES 5,000</span></div>
-        <div class="pricing-cell" style="color:var(--muted);">10 tracks</div>
+        <div class="pricing-cell highlight">Mixing & Mastering</div>
+        <div class="pricing-cell">Per song · 2 revisions</div>
+        <div class="pricing-cell"><span class="price-big">5,000 KES</span></div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-cell highlight">Custom Production</div>
+        <div class="pricing-cell">Exclusive rights · Stems included</div>
+        <div class="pricing-cell"><span class="price-big">10,000 KES</span></div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-cell highlight">Full Project Bundle</div>
+        <div class="pricing-cell">Beat + record + mix/master</div>
+        <div class="pricing-cell"><span class="price-big">15,000 KES</span></div>
       </div>
     </div>
 
-    <div style="margin-top:32px;max-width:600px;margin-left:auto;margin-right:auto;">
-      <div class="policy-box" style="margin-top:0;">
-        <h4 style="font-size:16px;">➕ ADD-ONS</h4>
-        <ul>
-          <li><strong>On-location recording:</strong> +KES 1,000/month</li>
-          <li><strong>Extra tracks (beyond limit):</strong> KES 800 per track</li>
-        </ul>
+    <!-- ⚡ HIGHLY VISIBLE ON-LOCATION FEE NOTICE -->
+    <div class="travel-fee-note">
+      <span class="emoji-big">📍</span>
+      <div>
+        <strong>ON-LOCATION FEE</strong> — If you want me to come to your location, add <strong>+1,000 KES</strong> to any studio service above. This covers travel and portable gear setup.
       </div>
     </div>
 
-    <div style="text-align:center;margin-top:48px;">
-      <a href="https://wa.me/254110493736?text=Hey%20Lehmann%2C%20I%20want%20to%20subscribe%20to%20a%20monthly%20retainer" target="_blank" class="btn-primary">
-        Subscribe on WhatsApp ↗
-      </a>
+    <!-- EXTRA CTA -->
+    <div style="margin-top:40px; display:flex; gap:16px; flex-wrap:wrap;">
+      <a href="#contact" class="btn-primary" style="padding:14px 28px;">BOOK NOW →</a>
+      <a href="#beats" class="btn-outline" style="padding:14px 28px;">LISTEN TO BEATS</a>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section id="about">
-    <div class="about-ambient">
-      <img src="https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" loading="lazy">
-      <img src="https://images.pexels.com/photos/1626481/pexels-photo-1626481.jpeg?auto=compress&cs=tinysrgb&w=500" alt="" loading="lazy">
-    </div>
+    <div class="section-label">04 / ABOUT</div>
     <div class="about-grid">
-      <div class="about-visual reveal">
+      <div class="about-visual">
         <div class="about-visual-inner">
           <div class="big-logo">L</div>
         </div>
-        <div class="about-badge">NAIROBI — KENYA</div>
+        <div class="about-badge">EST. 2019</div>
       </div>
-
-      <div class="about-text reveal">
-        <div class="section-label">THE PRODUCER</div>
-        <h2>PROD BY<br><span style="color:var(--accent)">LEHMANN</span></h2>
-        <p>
-          I'm Lehmann — a Nairobi-based music producer specialising in Trap, Trapsoul, and RNB. Every beat I make carries a specific emotional frequency; dark melodies, snapping 808s, airy pads, and hard-hitting drums built for artists who want to say something real.
-        </p>
-        <p>
-          With four-plus years behind the boards, I've developed a sound that bridges Nairobi's raw energy with the polished production standards of global RNB and Trap. Whether you're an emerging artist or an established act, I build with your vision in mind.
-        </p>
-        <p>
-          I work on a <strong>monthly retainer model</strong> — subscribe, and I'll deliver a consistent stream of heat every single month. No per-session pricing, no one-off beat purchases. Just steady, dedicated production for your catalog.
-        </p>
+      <div class="about-text">
+        <h2>SOUND THAT<br>SPEAKS LOUDER</h2>
+        <p>I'm Lehmann — a music producer and engineer based in Nairobi. I've been crafting beats in the Trap, Trapsoul, and RNB space for over 5 years, working with artists who want their sound to stand out.</p>
+        <p>From dark, atmospheric trapsoul to hard-hitting street anthems — my catalog is built on heavy 808s, emotional melodies, and clean, professional mixes. Whether you're recording your first single or your tenth project, I've got the sound you're looking for.</p>
+        <p>Let's make something that hits different.</p>
         <div class="about-tags">
-          <span class="tag">Trap</span>
-          <span class="tag">Trapsoul</span>
+          <span class="tag">TRAP</span>
+          <span class="tag">TRAPSOUL</span>
           <span class="tag">RNB</span>
-          <span class="tag">808s</span>
-          <span class="tag">Melody-first</span>
-          <span class="tag">4+ Years</span>
-          <span class="tag">Nairobi</span>
+          <span class="tag">MIXING</span>
+          <span class="tag">MASTERING</span>
+          <span class="tag">PRODUCTION</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- CONTACT / BOOKING -->
   <section id="contact">
-    <div class="section-bg-img" style="background-image:url('https://images.pexels.com/photos/1537638/pexels-photo-1537638.jpeg?auto=compress&cs=tinysrgb&w=1600');"></div>
-    <div class="section-label" style="justify-content:center;margin-bottom:40px;">START YOUR RETAINER</div>
-    <h2 class="contact-title">GET <span>HEAT</span><br>EVERY MONTH</h2>
-    <p class="contact-sub">Subscribe to a monthly retainer and get consistent production delivered straight to your inbox. No session bookings, no per-beat purchases — just pure, dedicated output.</p>
+    <div class="section-label" style="justify-content:center;">05 / CONTACT</div>
+    <h2 class="contact-title">LET'S <span>WORK</span></h2>
+    <p class="contact-sub">Ready to book a session or need a custom beat? Hit me up and let's get started.</p>
+
     <div class="contact-btns">
-      <a href="https://wa.me/254110493736?text=Hey%20Lehmann%2C%20I%20want%20to%20start%20a%20monthly%20retainer" target="_blank" class="contact-btn whatsapp">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-        WhatsApp — 0110 493 736
+      <a href="https://wa.me/254700000000" target="_blank" class="contact-btn whatsapp">
+        <span style="font-size:18px;">💬</span> WHATSAPP
       </a>
-      <a href="https://instagram.com/lehmanntf" target="_blank" class="contact-btn instagram">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg>
-        Instagram — @lehmanntf
+      <a href="https://instagram.com/prodbylehmann" target="_blank" class="contact-btn instagram">
+        <span style="font-size:18px;">📸</span> INSTAGRAM
       </a>
     </div>
+
+    <!-- ⚡ ON LOCATION REMINDER ALSO HERE -->
+    <div style="margin-top: 40px; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;">
+      📍 On-location sessions add <span style="color: var(--accent); font-weight: 700;">+1,000 KES</span>
+    </div>
   </section>
+
+  <!-- SOCIAL FIXED -->
+  <div class="social-fixed">
+    <a href="https://instagram.com/prodbylehmann" target="_blank" class="social-pill">
+      <span class="social-icon">📸</span>
+      <span class="social-text">INSTAGRAM</span>
+    </a>
+    <a href="https://youtube.com/@prodbylehmann" target="_blank" class="social-pill">
+      <span class="social-icon">▶️</span>
+      <span class="social-text">YOUTUBE</span>
+    </a>
+    <a href="https://wa.me/254700000000" target="_blank" class="social-pill">
+      <span class="social-icon">💬</span>
+      <span class="social-text">WHATSAPP</span>
+    </a>
+  </div>
 
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">PROD BY <span>LEHMANN</span></div>
-    <div class="footer-text">© 2024 Prod by Lehmann. Nairobi, Kenya. Monthly Retainers from KES 3,000.</div>
+    <div class="footer-text">© 2025 PROD BY LEHMANN. ALL RIGHTS RESERVED.</div>
     <div class="footer-links">
-      <a href="https://wa.me/254110493736" target="_blank">WhatsApp</a>
-      <a href="https://instagram.com/lehmanntf" target="_blank">Instagram</a>
+      <a href="#beats">BEATS</a>
+      <a href="#sessions">SESSIONS</a>
+      <a href="#pricing">PRICING</a>
+      <a href="#contact">BOOK</a>
     </div>
   </footer>
 
+  <!-- HERO SLIDESHOW (simple fade-in/out) -->
   <script>
-    // ============================================================
-    // THEME TOGGLE
-    // ============================================================
-    function setTheme(t) {
-      document.body.classList.toggle('theme-red', t === 'red');
-    }
+    (function() {
+      const slidesContainer = document.getElementById('heroSlides');
+      // Using abstract moody images from Unsplash that match the vibe
+      const images = [
+        'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1600&q=80',
+        'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1600&q=80',
+        'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1600&q=80',
+        'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1600&q=80',
+        'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1600&q=80'
+      ];
 
-    // ============================================================
-    // SCROLL REVEAL
-    // ============================================================
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-        }
+      images.forEach((src, i) => {
+        const div = document.createElement('div');
+        div.className = 'hero-slide' + (i === 0 ? ' active' : '');
+        div.style.backgroundImage = `url(${src})`;
+        slidesContainer.appendChild(div);
       });
-    }, { threshold: 0.1 });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // ============================================================
-    // HERO SLIDESHOW
-    // ============================================================
-    const slides = document.querySelectorAll('.hero-slide');
-    let currentSlide = 0;
-
-    if (slides.length) {
-      slides[0].classList.add('active');
-      setInterval(() => {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-      }, 4500);
-    }
-
-    // ============================================================
-    // SECTION BG IMAGES — lazy fade in
-    // ============================================================
-    const bgImgs = document.querySelectorAll('.section-bg-img');
-    const bgObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('loaded');
-          bgObserver.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.05 });
-
-    bgImgs.forEach(el => bgObserver.observe(el));
+      let current = 0;
+      const slides = document.querySelectorAll('.hero-slide');
+      if (slides.length > 1) {
+        setInterval(() => {
+          slides[current].classList.remove('active');
+          current = (current + 1) % slides.length;
+          slides[current].classList.add('active');
+        }, 4000);
+      }
+    })();
   </script>
 </body>
 </html>
