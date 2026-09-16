@@ -159,17 +159,6 @@
       overflow: hidden;
     }
 
-    .hero-video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.22;
-      filter: grayscale(80%) contrast(1.1);
-      z-index: 0;
-    }
-
     .hero-slides {
       position: absolute;
       inset: 0;
@@ -211,37 +200,16 @@
     }
 
     @keyframes grain {
-      0%,
-      100% {
-        transform: translate(0, 0);
-      }
-      10% {
-        transform: translate(-2%, -3%);
-      }
-      20% {
-        transform: translate(3%, 2%);
-      }
-      30% {
-        transform: translate(-1%, 4%);
-      }
-      40% {
-        transform: translate(4%, -1%);
-      }
-      50% {
-        transform: translate(-3%, 3%);
-      }
-      60% {
-        transform: translate(2%, -2%);
-      }
-      70% {
-        transform: translate(-4%, 1%);
-      }
-      80% {
-        transform: translate(3%, -3%);
-      }
-      90% {
-        transform: translate(-2%, 2%);
-      }
+      0%, 100% { transform: translate(0, 0); }
+      10% { transform: translate(-2%, -3%); }
+      20% { transform: translate(3%, 2%); }
+      30% { transform: translate(-1%, 4%); }
+      40% { transform: translate(4%, -1%); }
+      50% { transform: translate(-3%, 3%); }
+      60% { transform: translate(2%, -2%); }
+      70% { transform: translate(-4%, 1%); }
+      80% { transform: translate(3%, -3%); }
+      90% { transform: translate(-2%, 2%); }
     }
 
     .hero-arrow {
@@ -400,12 +368,8 @@
     }
 
     @keyframes ticker {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(-50%);
-      }
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
     }
 
     /* SECTIONS */
@@ -445,7 +409,6 @@
       background: var(--bg);
     }
 
-    /* YOUTUBE BEAT CATALOG BUTTON */
     .yt-cta-wrap {
       display: flex;
       flex-direction: column;
@@ -564,24 +527,27 @@
       font-size: 16px;
     }
 
-    /* SERVICES / BOOKING */
+    /* SERVICES / PLANS GRID (3 COLUMNS) */
     #sessions {
       background: var(--bg2);
     }
 
     .services-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
       margin-top: 60px;
     }
 
     .service-card {
       background: var(--bg);
       border: 1px solid var(--border);
-      padding: 48px;
+      padding: 40px 32px;
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       transition: border-color 0.3s;
     }
 
@@ -589,7 +555,25 @@
       border-color: var(--accent);
     }
 
-    /* ON-LOCATION BADGE — highly visible */
+    .service-card.featured {
+      border-color: var(--accent);
+      background: rgba(202, 255, 0, 0.02);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--accent);
+      color: #000;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 4px 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
     .on-location-badge {
       display: inline-flex;
       align-items: center;
@@ -601,17 +585,12 @@
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 8px 16px;
+      padding: 6px 12px;
       margin-bottom: 20px;
-      border-radius: 0;
       line-height: 1.2;
       box-shadow: 0 0 0 1px rgba(202, 255, 0, 0.3);
       animation: pulse-accent 2s infinite;
-    }
-
-    .on-location-badge span {
-      font-size: 14px;
-      line-height: 1;
+      align-self: flex-start;
     }
 
     @keyframes pulse-accent {
@@ -620,66 +599,62 @@
       100% { box-shadow: 0 0 0 1px rgba(202, 255, 0, 0.3); }
     }
 
-    .theme-red .on-location-badge {
-      box-shadow: 0 0 0 1px rgba(255, 45, 85, 0.3);
-    }
-    .theme-red .on-location-badge {
-      animation: pulse-accent-red 2s infinite;
-    }
-    @keyframes pulse-accent-red {
-      0% { box-shadow: 0 0 0 1px rgba(255, 45, 85, 0.3); }
-      50% { box-shadow: 0 0 0 5px rgba(255, 45, 85, 0.1); }
-      100% { box-shadow: 0 0 0 1px rgba(255, 45, 85, 0.3); }
-    }
-
-    .service-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 80px;
-      color: var(--bg3);
-      position: absolute;
-      right: 24px;
-      top: 16px;
-      line-height: 1;
-      pointer-events: none;
-      transition: color 0.3s;
-    }
-
-    .service-card:hover .service-num {
-      color: rgba(202, 255, 0, 0.07);
-    }
-
     .service-icon {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 42px;
+      font-size: 36px;
       letter-spacing: 0.06em;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       display: block;
       color: var(--accent);
       text-transform: uppercase;
-      transform: rotate(-2deg) scaleX(1.1);
-      opacity: 0.7;
-      text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
       font-weight: 400;
     }
 
     .service-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 32px;
+      font-size: 36px;
       color: var(--white);
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       letter-spacing: 0.05em;
     }
 
     .service-desc {
       font-size: 13px;
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .plan-features {
+      list-style: none;
       margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-top: 1px dashed var(--border);
+      padding-top: 20px;
+    }
+
+    .plan-features li {
+      font-size: 12px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .plan-features li span {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .service-price-wrap {
+      margin-top: auto;
     }
 
     .service-price {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 48px;
+      font-size: 42px;
       color: var(--accent);
       line-height: 1;
     }
@@ -690,7 +665,7 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       margin-top: 4px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     /* PRICING TABLE */
@@ -706,7 +681,7 @@
 
     .pricing-row {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1.5fr 1fr;
       border-bottom: 1px solid var(--border);
     }
 
@@ -723,6 +698,8 @@
       font-size: 13px;
       color: var(--muted);
       border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
     }
 
     .pricing-cell:last-child {
@@ -747,10 +724,8 @@
       font-size: 28px;
       color: var(--accent);
       display: block;
-      margin-top: 4px;
     }
 
-    /* NEW: travel fee notice inside pricing table */
     .travel-fee-note {
       display: flex;
       align-items: center;
@@ -758,7 +733,7 @@
       background: rgba(202, 255, 0, 0.06);
       border: 1px solid rgba(202, 255, 0, 0.2);
       padding: 18px 24px;
-      margin-top: 16px;
+      margin-top: 24px;
       font-family: 'Space Mono', monospace;
       font-size: 12px;
       color: var(--accent);
@@ -766,13 +741,7 @@
       line-height: 1.5;
     }
 
-    .travel-fee-note .emoji-big {
-      font-size: 24px;
-      line-height: 1;
-    }
-
     .travel-fee-note strong {
-      color: var(--white);
       background: var(--accent);
       color: #000;
       padding: 2px 10px;
@@ -979,11 +948,13 @@
       font-size: 16px;
       flex-shrink: 0;
     }
+
     .social-text {
       white-space: nowrap;
       opacity: 0;
       transition: opacity 0.2s 0.1s;
     }
+
     .social-pill:hover .social-text {
       opacity: 1;
     }
@@ -1034,6 +1005,12 @@
     }
 
     /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 900px) {
       nav {
         padding: 16px 24px;
@@ -1049,9 +1026,6 @@
       }
       section {
         padding: 60px 24px;
-      }
-      .services-grid {
-        grid-template-columns: 1fr;
       }
       .about-grid {
         grid-template-columns: 1fr;
@@ -1110,8 +1084,8 @@
     <a href="#" class="logo">PROD BY <span>LEHMANN</span></a>
     <ul>
       <li><a href="#beats">BEATS</a></li>
-      <li><a href="#sessions">SESSIONS</a></li>
-      <li><a href="#pricing">PRICING</a></li>
+      <li><a href="#plans">PLANS</a></li>
+      <li><a href="#pricing">RATES</a></li>
       <li><a href="#about">ABOUT</a></li>
       <li><a href="#contact" class="nav-book">BOOK NOW</a></li>
     </ul>
@@ -1144,7 +1118,7 @@
       </div>
       <div class="hero-ctas">
         <a href="#beats" class="btn-primary">LISTEN TO BEATS →</a>
-        <a href="#contact" class="btn-outline">BOOK A SESSION</a>
+        <a href="#plans" class="btn-outline">VIEW PLANS</a>
       </div>
     </div>
     <div class="hero-arrow">
@@ -1157,13 +1131,13 @@
   <!-- TICKER -->
   <div class="ticker">
     <div class="ticker-inner">
-      <span class="ticker-item">🔥 NEW BEATS EVERY WEEK</span>
-      <span class="ticker-item">🎧 CUSTOM PRODUCTION</span>
-      <span class="ticker-item">💼 MIXING & MASTERING</span>
+      <span class="ticker-item">🔥 COMRADE PLAN FROM 600 KES</span>
+      <span class="ticker-item">🎧 LICENSED BEATS 2000 KES</span>
+      <span class="ticker-item">💼 EXCLUSIVE RIGHTS 8000 KES</span>
       <span class="ticker-item">📍 ON-LOCATION SESSIONS +1000 KES</span>
-      <span class="ticker-item">🔥 NEW BEATS EVERY WEEK</span>
-      <span class="ticker-item">🎧 CUSTOM PRODUCTION</span>
-      <span class="ticker-item">💼 MIXING & MASTERING</span>
+      <span class="ticker-item">🔥 COMRADE PLAN FROM 600 KES</span>
+      <span class="ticker-item">🎧 LICENSED BEATS 2000 KES</span>
+      <span class="ticker-item">💼 EXCLUSIVE RIGHTS 8000 KES</span>
       <span class="ticker-item">📍 ON-LOCATION SESSIONS +1000 KES</span>
     </div>
   </div>
@@ -1193,110 +1167,131 @@
     </div>
   </section>
 
-  <!-- SESSIONS / SERVICES -->
-  <section id="sessions">
-    <div class="section-label">02 / SERVICES</div>
-    <h2 class="section-title">STUDIO SESSIONS</h2>
+  <!-- 3 MAIN PLANS SECTION -->
+  <section id="plans">
+    <div class="section-label">02 / PACKAGES</div>
+    <h2 class="section-title">CHOOSE YOUR PLAN</h2>
 
     <div class="services-grid">
-      <!-- CARD 1 — RECORDING -->
+      <!-- PLAN 1: COMRADE PLAN -->
       <div class="service-card">
-        <div class="service-num">01</div>
-        <!-- ⚡ ON LOCATION BADGE -->
-        <div class="on-location-badge"><span>📍</span> ON-LOCATION? +1000 KES</div>
-        <div class="service-icon">🎙️ REC</div>
-        <h3 class="service-name">RECORDING SESSION</h3>
-        <p class="service-desc">Full recording session with professional engineer. Get your vocals tracked, comped, and ready for mixing. Industry-standard gear and acoustically treated room.</p>
-        <div class="service-price">2,500 KES</div>
-        <div class="service-price-label">PER HOUR · STUDIO</div>
-        <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px;">BOOK SESSION →</a>
+        <div>
+          <div class="on-location-badge">📍 ON-LOCATION? +1000 KES</div>
+          <div class="service-icon">🎓 PLAN 01</div>
+          <h3 class="service-name">COMRADE PLAN</h3>
+          <p class="service-desc">Budget-friendly, high-quality recording package designed specifically for student and independent artists working on a budget.</p>
+          <ul class="plan-features">
+            <li><span>✓</span> 600 KES per Single Track</li>
+            <li><span>✓</span> 800 KES Bundle Deal (2 Tracks)</li>
+            <li><span>✓</span> Vocal Recording Included</li>
+            <li><span>✓</span> Mixing & Mastering Included</li>
+          </ul>
+        </div>
+        <div class="service-price-wrap">
+          <div class="service-price">600 KES</div>
+          <div class="service-price-label">STARTING AT · 800 KES FOR 2 TRACKS</div>
+          <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px; width:100%; justify-content:center;">SELECT COMRADE PLAN →</a>
+        </div>
       </div>
 
-      <!-- CARD 2 — MIXING -->
-      <div class="service-card">
-        <div class="service-num">02</div>
-        <!-- ⚡ ON LOCATION BADGE -->
-        <div class="on-location-badge"><span>📍</span> ON-LOCATION? +1000 KES</div>
-        <div class="service-icon">🎚️ MIX</div>
-        <h3 class="service-name">MIXING & MASTERING</h3>
-        <p class="service-desc">Professional mix and master to make your track radio-ready. Balanced, loud, and clean — competitive with industry releases. 2 revisions included.</p>
-        <div class="service-price">5,000 KES</div>
-        <div class="service-price-label">PER SONG</div>
-        <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px;">BOOK SESSION →</a>
+      <!-- PLAN 2: PRO PLAN -->
+      <div class="service-card featured">
+        <div class="card-badge">MOST POPULAR</div>
+        <div>
+          <div class="on-location-badge">📍 ON-LOCATION? +1000 KES</div>
+          <div class="service-icon">🎙️ PLAN 02</div>
+          <h3 class="service-name">PRO PLAN</h3>
+          <p class="service-desc">Full professional treatment for serious artists looking to craft radio-ready singles or a complete EP project with special bonuses.</p>
+          <ul class="plan-features">
+            <li><span>✓</span> 3,000 KES per Single Track</li>
+            <li><span>✓</span> 6,000 KES EP Special (3 Tracks)</li>
+            <li><span>★</span> BONUS: +1 Extra Track Free Offer</li>
+            <li><span>✓</span> Pro Mixing & Mastering Included</li>
+          </ul>
+        </div>
+        <div class="service-price-wrap">
+          <div class="service-price">3,000 KES</div>
+          <div class="service-price-label">STARTING AT · 6,000 KES FOR 3+1 TRACKS</div>
+          <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px; width:100%; justify-content:center;">SELECT PRO PLAN →</a>
+        </div>
       </div>
 
-      <!-- CARD 3 — PRODUCTION -->
+      <!-- PLAN 3: BEAT PURCHASE -->
       <div class="service-card">
-        <div class="service-num">03</div>
-        <!-- ⚡ ON LOCATION BADGE -->
-        <div class="on-location-badge"><span>📍</span> ON-LOCATION? +1000 KES</div>
-        <div class="service-icon">🎹 PROD</div>
-        <h3 class="service-name">CUSTOM PRODUCTION</h3>
-        <p class="service-desc">Bespoke beat crafted around your sound and reference tracks. Full stems, project file, and exclusive rights. You keep 100% of your masters.</p>
-        <div class="service-price">10,000 KES</div>
-        <div class="service-price-label">PER BEAT · EXCLUSIVE</div>
-        <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px;">BOOK SESSION →</a>
-      </div>
-
-      <!-- CARD 4 — BUNDLE -->
-      <div class="service-card">
-        <div class="service-num">04</div>
-        <!-- ⚡ ON LOCATION BADGE -->
-        <div class="on-location-badge"><span>📍</span> ON-LOCATION? +1000 KES</div>
-        <div class="service-icon">📦 BUNDLE</div>
-        <h3 class="service-name">FULL PROJECT</h3>
-        <p class="service-desc">Beat + recording + mix & master. Everything you need to drop a single. Best value for artists who want a polished, release-ready track.</p>
-        <div class="service-price">15,000 KES</div>
-        <div class="service-price-label">COMPLETE PACKAGE</div>
-        <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px;">BOOK SESSION →</a>
+        <div>
+          <div class="service-icon">🎹 PLAN 03</div>
+          <h3 class="service-name">BEAT PURCHASES</h3>
+          <p class="service-desc">Ready-to-use production from the catalog. Choose between flexible commercial licensing or full exclusive ownership with stems.</p>
+          <ul class="plan-features">
+            <li><span>✓</span> 2,000 KES Licensed Beat + WAV File</li>
+            <li><span>✓</span> Commercial Streaming Rights</li>
+            <li><span>✓</span> 8,000 KES Exclusive Ownership</li>
+            <li><span>✓</span> Full Trackouts / Stems Included</li>
+          </ul>
+        </div>
+        <div class="service-price-wrap">
+          <div class="service-price">2,000 KES</div>
+          <div class="service-price-label">LICENSED · 8,000 KES FOR EXCLUSIVE</div>
+          <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px; width:100%; justify-content:center;">PURCHASE BEATS →</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- PRICING TABLE -->
+  <!-- PRICING BREAKDOWN TABLE -->
   <section id="pricing">
     <div class="section-label">03 / PRICING</div>
-    <h2 class="section-title">RATES & PACKAGES</h2>
+    <h2 class="section-title">DETAILED RATES</h2>
 
     <div class="pricing-table">
       <div class="pricing-row header">
-        <div class="pricing-cell">SERVICE</div>
-        <div class="pricing-cell">DESCRIPTION</div>
+        <div class="pricing-cell">PLAN / SERVICE</div>
+        <div class="pricing-cell">PACKAGE INCLUSIONS</div>
         <div class="pricing-cell">PRICE</div>
       </div>
       <div class="pricing-row">
-        <div class="pricing-cell highlight">Recording (Studio)</div>
-        <div class="pricing-cell">Per hour · Engineer included</div>
-        <div class="pricing-cell"><span class="price-big">2,500 KES</span></div>
+        <div class="pricing-cell highlight">Comrade Single Track</div>
+        <div class="pricing-cell">1 Track recording session + mixing & mastering</div>
+        <div class="pricing-cell"><span class="price-big">600 KES</span></div>
       </div>
       <div class="pricing-row">
-        <div class="pricing-cell highlight">Mixing & Mastering</div>
-        <div class="pricing-cell">Per song · 2 revisions</div>
-        <div class="pricing-cell"><span class="price-big">5,000 KES</span></div>
+        <div class="pricing-cell highlight">Comrade 2-Track Special</div>
+        <div class="pricing-cell">2 Tracks recording session + mixing & mastering</div>
+        <div class="pricing-cell"><span class="price-big">800 KES</span></div>
       </div>
       <div class="pricing-row">
-        <div class="pricing-cell highlight">Custom Production</div>
-        <div class="pricing-cell">Exclusive rights · Stems included</div>
-        <div class="pricing-cell"><span class="price-big">10,000 KES</span></div>
+        <div class="pricing-cell highlight">Pro Single Track</div>
+        <div class="pricing-cell">Pro recording + full radio mix & master</div>
+        <div class="pricing-cell"><span class="price-big">3,000 KES</span></div>
       </div>
       <div class="pricing-row">
-        <div class="pricing-cell highlight">Full Project Bundle</div>
-        <div class="pricing-cell">Beat + record + mix/master</div>
-        <div class="pricing-cell"><span class="price-big">15,000 KES</span></div>
+        <div class="pricing-cell highlight">Pro EP Offer (3+1)</div>
+        <div class="pricing-cell">3 Tracks + 1 Bonus Track Free offer + mix & master</div>
+        <div class="pricing-cell"><span class="price-big">6,000 KES</span></div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-cell highlight">Licensed Beat Lease</div>
+        <div class="pricing-cell">High Quality WAV File + Commercial Distribution Rights</div>
+        <div class="pricing-cell"><span class="price-big">2,000 KES</span></div>
+      </div>
+      <div class="pricing-row">
+        <div class="pricing-cell highlight">Exclusive Beat Rights</div>
+        <div class="pricing-cell">100% Exclusive Ownership + Trackout Stems + Master File</div>
+        <div class="pricing-cell"><span class="price-big">8,000 KES</span></div>
       </div>
     </div>
 
-    <!-- ⚡ HIGHLY VISIBLE ON-LOCATION FEE NOTICE -->
+    <!-- ON-LOCATION FEE NOTICE -->
     <div class="travel-fee-note">
-      <span class="emoji-big">📍</span>
+      <span style="font-size: 20px;">📍</span>
       <div>
-        <strong>ON-LOCATION FEE</strong> — If you want me to come to your location, add <strong>+1,000 KES</strong> to any studio service above. This covers travel and portable gear setup.
+        <strong>ON-LOCATION SESSIONS</strong> — Want me to bring the recording setup to your place? Add <strong>+1,000 KES</strong> to any Comrade or Pro recording session.
       </div>
     </div>
 
     <!-- EXTRA CTA -->
     <div style="margin-top:40px; display:flex; gap:16px; flex-wrap:wrap;">
-      <a href="#contact" class="btn-primary" style="padding:14px 28px;">BOOK NOW →</a>
+      <a href="#contact" class="btn-primary" style="padding:14px 28px;">BOOK A SESSION NOW →</a>
       <a href="#beats" class="btn-outline" style="padding:14px 28px;">LISTEN TO BEATS</a>
     </div>
   </section>
@@ -1314,7 +1309,7 @@
       <div class="about-text">
         <h2>SOUND THAT<br>SPEAKS LOUDER</h2>
         <p>I'm Lehmann — a music producer and engineer based in Nairobi. I've been crafting beats in the Trap, Trapsoul, and RNB space for over 5 years, working with artists who want their sound to stand out.</p>
-        <p>From dark, atmospheric trapsoul to hard-hitting street anthems — my catalog is built on heavy 808s, emotional melodies, and clean, professional mixes. Whether you're recording your first single or your tenth project, I've got the sound you're looking for.</p>
+        <p>From dark, atmospheric trapsoul to hard-hitting street anthems — my catalog is built on heavy 808s, emotional melodies, and clean, professional mixes. Whether you need a quick Comrade studio session or exclusive production rights, I've got you covered.</p>
         <p>Let's make something that hits different.</p>
         <div class="about-tags">
           <span class="tag">TRAP</span>
@@ -1332,7 +1327,7 @@
   <section id="contact">
     <div class="section-label" style="justify-content:center;">05 / CONTACT</div>
     <h2 class="contact-title">LET'S <span>WORK</span></h2>
-    <p class="contact-sub">Ready to book a session or need a custom beat? Hit me up and let's get started.</p>
+    <p class="contact-sub">Ready to book a plan or buy a beat? Pick your plan and hit me up on WhatsApp or Instagram.</p>
 
     <div class="contact-btns">
       <a href="https://wa.me/254700000000" target="_blank" class="contact-btn whatsapp">
@@ -1343,7 +1338,6 @@
       </a>
     </div>
 
-    <!-- ⚡ ON LOCATION REMINDER ALSO HERE -->
     <div style="margin-top: 40px; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;">
       📍 On-location sessions add <span style="color: var(--accent); font-weight: 700;">+1,000 KES</span>
     </div>
@@ -1371,17 +1365,16 @@
     <div class="footer-text">© 2025 PROD BY LEHMANN. ALL RIGHTS RESERVED.</div>
     <div class="footer-links">
       <a href="#beats">BEATS</a>
-      <a href="#sessions">SESSIONS</a>
-      <a href="#pricing">PRICING</a>
+      <a href="#plans">PLANS</a>
+      <a href="#pricing">RATES</a>
       <a href="#contact">BOOK</a>
     </div>
   </footer>
 
-  <!-- HERO SLIDESHOW (simple fade-in/out) -->
+  <!-- HERO SLIDESHOW -->
   <script>
     (function() {
       const slidesContainer = document.getElementById('heroSlides');
-      // Using abstract moody images from Unsplash that match the vibe
       const images = [
         'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1600&q=80',
         'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1600&q=80',
