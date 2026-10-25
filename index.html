@@ -137,6 +137,23 @@ footer a{text-decoration:none;margin-left:16px}footer a:hover{color:var(--accent
 .rail a{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:rgba(17,17,17,.92);border:1px solid var(--border);color:#bbb;transition:.2s}
 .rail a:hover{border-color:var(--accent);color:var(--accent);transform:translateX(3px)}.rail .ic{width:19px;height:19px}
 @media(max-width:900px){.rail{display:none}}
+
+.g3,.g2{display:grid;gap:20px}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.gc{border:1px solid var(--border);background:rgba(17,17,17,.85);padding:32px 26px;cursor:pointer;transition:.2s}.gc:hover{border-color:var(--accent);transform:translateY(-4px)}
+.gc b{font:800 26px Manrope;letter-spacing:-.02em;display:block}.gc small{font:10px 'IBM Plex Mono';color:var(--accent);letter-spacing:.15em}
+.step{border-left:2px solid var(--accent);padding:6px 0 6px 20px}.step i{font:800 44px Manrope;font-style:normal;color:var(--accent);display:block;letter-spacing:-.04em}
+.step h4{font:700 17px Manrope;margin:8px 0}.step p{font-size:13px;color:var(--muted);line-height:1.7}
+#how,#faq{background:var(--bg2)}
+.igg{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:26px}
+.igt{aspect-ratio:1;background:var(--bg3) center/cover;display:flex;align-items:center;justify-content:center;color:transparent;transition:.2s}
+.igt:hover{color:var(--accent);box-shadow:inset 0 0 0 100px rgba(0,0,0,.6)}.igt .ic{width:28px;height:28px}
+details{border-bottom:1px solid var(--border);padding:20px 0;max-width:820px}summary{cursor:pointer;font:700 16px Manrope;list-style:none;display:flex;justify-content:space-between}
+summary::-webkit-details-marker{display:none}summary:after{content:'+';color:var(--accent);font-size:22px}details[open] summary:after{content:'–'}
+details p{color:var(--muted);font-size:14px;line-height:1.8;margin-top:12px}
+.lg2{display:grid;gap:12px}.lg2 input{background:var(--bg);border:1px solid var(--border);color:#fff;padding:13px 16px;font:13px Inter;outline:0}.lg2 input:focus{border-color:var(--accent)}
+.sw{cursor:pointer;color:var(--accent);font:10px 'IBM Plex Mono';text-align:center;letter-spacing:.1em}
+.ar select{background:var(--bg2);border:1px solid var(--border);color:#fff;padding:9px;font:12px 'IBM Plex Mono'}
+@media(max-width:900px){.g3,.g2{grid-template-columns:1fr}.igg{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body>
@@ -159,11 +176,11 @@ footer a{text-decoration:none;margin-left:16px}footer a:hover{color:var(--accent
 
 <nav>
   <a href="#" class="logo">BEATS<span>.WORK</span></a>
-  <ul><li><a href="#store">Beats</a></li><li><a href="#contact" class="nb">CONTACT</a></li></ul>
+  <ul><li><a href="#store">Beats</a></li><li><a href="#licenses">Licenses</a></li><li><a href="#faq">FAQ</a></li><li id="navAuth"></li></ul>
 </nav>
 
 <div id="site">
-<div class="rail"><a href="https://instagram.com/prodbylehmann" target="_blank" aria-label="Instagram"><svg class="ic "><use href="#i-ig"/></svg></a><a href="https://youtube.com/@prodbylehmann" target="_blank" aria-label="YouTube"><svg class="ic "><use href="#i-yt"/></svg></a><a id="waRail" target="_blank" aria-label="WhatsApp"><svg class="ic "><use href="#i-wa"/></svg></a></div>
+<div class="rail"><a href="https://instagram.com/lehmanntf" target="_blank" aria-label="Instagram"><svg class="ic "><use href="#i-ig"/></svg></a><a href="https://youtube.com/@prodbylehmann" target="_blank" aria-label="YouTube"><svg class="ic "><use href="#i-yt"/></svg></a><a id="waRail" target="_blank" aria-label="WhatsApp"><svg class="ic "><use href="#i-wa"/></svg></a></div>
 <header class="hero">
   <div class="slides" id="slides"></div><div class="ov"></div><div class="grain"></div>
   <div class="hc">
@@ -182,8 +199,10 @@ footer a{text-decoration:none;margin-left:16px}footer a:hover{color:var(--accent
 
 <div class="tick"><div><span><svg class="ic"><use href="#i-disc"/></svg>NEW BEATS WEEKLY</span><span><svg class="ic"><use href="#i-play"/></svg>INSTANT DELIVERY</span><span><svg class="ic"><use href="#i-keys"/></svg>LEASE FROM $15</span><span><svg class="ic"><use href="#i-crown"/></svg>EXCLUSIVE FROM $60</span><span><svg class="ic"><use href="#i-disc"/></svg>NEW BEATS WEEKLY</span><span><svg class="ic"><use href="#i-play"/></svg>INSTANT DELIVERY</span><span><svg class="ic"><use href="#i-keys"/></svg>LEASE FROM $15</span><span><svg class="ic"><use href="#i-crown"/></svg>EXCLUSIVE FROM $60</span></div></div>
 
+<section id="genres" style="background:var(--bg)"><div class="sl">01 / GENRES</div><h2 class="st">BROWSE BY SOUND</h2><div class="g3" id="genreGrid"></div></section>
+
 <section id="store">
-  <div class="sl">01 / BEAT STORE</div>
+  <div class="sl">02 / BEAT STORE</div>
   <h2 class="st">LATEST BEATS</h2>
   <div class="bar">
     <input id="q" placeholder="Search title, key, BPM, mood, tag…">
@@ -195,14 +214,33 @@ footer a{text-decoration:none;margin-left:16px}footer a:hover{color:var(--accent
   <div style="margin-top:26px"><a class="btn o" target="_blank" href="https://youtube.com/@prodbylehmann"><svg class="ic "><use href="#i-yt"/></svg> MORE ON YOUTUBE</a></div>
 </section>
 
+<section id="how"><div class="sl">03 / HOW IT WORKS</div><h2 class="st">FROM PREVIEW TO RELEASE</h2><div class="g3">
+<div class="step"><i>01</i><h4>Browse &amp; preview</h4><p>Filter by genre, BPM and key. Play every beat in full before you decide.</p></div>
+<div class="step"><i>02</i><h4>Sign in &amp; order</h4><p>Create a free account, pick Lease or Exclusive and place your order in one tap. You can track it under My Orders.</p></div>
+<div class="step"><i>03</i><h4>Pay &amp; receive files</h4><p>Your order opens a WhatsApp chat with the order number. Once payment is confirmed, your files are delivered.</p></div></div></section>
+
+<section id="licenses"><div class="sl">04 / LICENSING</div><h2 class="st">PICK YOUR LICENSE</h2><div class="g2">
+<div class="card"><h3><svg class="ic"><use href="#i-disc"/></svg> LEASE</h3><p>Release your music legally with a high-quality WAV and commercial streaming rights.</p><ul><li>MP3 + WAV delivery</li><li>Commercial streaming rights</li><li>Beat stays in the store for other artists</li></ul><div class="p">FROM $15</div><small>PER BEAT</small><a class="btn" href="#store">BROWSE BEATS →</a></div>
+<div class="card f"><span class="bdg">FULL OWNERSHIP</span><h3><svg class="ic"><use href="#i-crown"/></svg> EXCLUSIVE</h3><p>The beat becomes yours alone. Once sold, it is removed from the store.</p><ul><li>100% exclusive ownership</li><li>Full trackouts / stems</li><li>Master file included</li></ul><div class="p">FROM $60</div><small>PER BEAT</small><a class="btn" href="#store">BROWSE BEATS →</a></div></div></section>
+
+<section id="insta"><div class="sl">05 / INSTAGRAM</div><h2 class="st">FOLLOW @LEHMANNTF</h2><div class="igg" id="igGrid"></div>
+<a class="btn" target="_blank" href="https://instagram.com/lehmanntf"><svg class="ic"><use href="#i-ig"/></svg> FOLLOW ON INSTAGRAM</a></section>
+
+<section id="faq"><div class="sl">06 / FAQ</div><h2 class="st">QUESTIONS</h2>
+<details><summary>How do I receive my beat?</summary><p>After you place an order and payment is confirmed on WhatsApp, your files are sent to you. Order status updates appear under My Orders.</p></details>
+<details><summary>What is the difference between Lease and Exclusive?</summary><p>A lease gives you a WAV file and commercial streaming rights while the beat stays available to others. Exclusive gives you full ownership with stems, and the beat is taken off the store.</p></details>
+<details><summary>Can I preview a beat before buying?</summary><p>Yes. Press play on any beat to hear the full preview. Previews are for listening only.</p></details>
+<details><summary>How do I pay?</summary><p>Payment is arranged with me on WhatsApp right after you place your order.</p></details>
+<details><summary>Can I get a custom beat or bulk deal?</summary><p>Yes. Message me on WhatsApp or Instagram with what you have in mind.</p></details></section>
+
 <section id="contact">
-  <div class="sl" style="justify-content:center">03 / CONTACT</div>
+  <div class="sl" style="justify-content:center">07 / CONTACT</div>
   <h2 class="ct">LET'S <span class="acc">WORK</span></h2>
   <p style="color:var(--muted);font-size:14px;margin:20px auto 40px;max-width:480px">Custom beats, bulk deals or questions about a license? Hit me up on WhatsApp or Instagram.</p>
-  <div class="ctas" style="justify-content:center"><a class="btn" id="waMain" target="_blank"><svg class="ic "><use href="#i-wa"/></svg> WHATSAPP</a><a class="btn o" target="_blank" href="https://instagram.com/prodbylehmann"><svg class="ic "><use href="#i-ig"/></svg> INSTAGRAM</a></div>
+  <div class="ctas" style="justify-content:center"><a class="btn" id="waMain" target="_blank"><svg class="ic "><use href="#i-wa"/></svg> WHATSAPP</a><a class="btn o" target="_blank" href="https://instagram.com/lehmanntf"><svg class="ic "><use href="#i-ig"/></svg> INSTAGRAM</a></div>
 </section>
 
-<footer><div>© 2026 BEATS.WORK. ALL RIGHTS RESERVED.</div><div><a href="#store">BEATS</a><a href="#contact">CONTACT</a></div></footer>
+<footer><div>© 2026 BEATS.WORK. ALL RIGHTS RESERVED.</div><div><a href="#store">BEATS</a><a href="#licenses">LICENSES</a><a href="#insta">INSTAGRAM</a><a href="#faq">FAQ</a><a href="#contact">CONTACT</a></div></footer>
 </div>
 
 <!-- ADMIN -->
@@ -234,7 +272,7 @@ footer a{text-decoration:none;margin-left:16px}footer a:hover{color:var(--accent
       <label class="w4">YouTube URL (optional)<input id="f_yt"></label>
       <div class="w4" style="display:flex;gap:10px"><button class="btn" id="saveBtn" onclick="saveBeat()">SAVE BEAT</button><button class="btn o" onclick="resetForm()">CLEAR</button></div>
     </div>
-    <div class="sl">ALL BEATS</div><div id="adminList"></div>
+    <div class="sl">ALL BEATS</div><div id="adminList"></div><div class="sl" style="margin-top:40px">ORDERS</div><div id="orderList"></div>
   </div>
 </div>
 
@@ -257,7 +295,7 @@ const IC = n => `<svg class="ic"><use href="#i-${n}"/></svg>`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const usd = n => '$' + Number(n || 0).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 const FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Crect width='10' height='10' fill='%231a1a1a'/%3E%3C/svg%3E";
-let BEATS = [], genre = '', cur = null;
+let BEATS = [], genre = '', cur = null, USER = null, pendingBuy = null, authMode = 'in';
 $('waMain').href = $('waRail').href = 'https://wa.me/' + WHATSAPP;
 
 function toast(m) { const t = $('toast'); t.textContent = m; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 2800); }
@@ -284,7 +322,7 @@ async function loadBeats() {
   $('chips').innerHTML = ['All', ...gs].map(g => `<button class="chip ${(g === 'All' && !genre) || g === genre ? 'on' : ''}" onclick="setGenre('${g === 'All' ? '' : esc(g)}')">${esc(g)}</button>`).join('');
   const ks = [...new Set(pub.map(b => b.key).filter(Boolean))].sort(); const kv = $('keyF').value;
   $('keyF').innerHTML = '<option value="">All Keys</option>' + ks.map(k => `<option ${k === kv ? 'selected' : ''}>${esc(k)}</option>`).join('');
-  render(); renderAdmin();
+  render(); renderAdmin(); fillIG(); $('genreGrid').innerHTML = gs.map(g => `<div class="gc" onclick="setGenre('${esc(g)}');location.hash='#store'"><b>${esc(g)}</b><small>${pub.filter(b => b.genre === g).length} BEATS</small></div>`).join('');
 }
 function setGenre(g) { genre = g; loadBeats(); }
 function render() {
@@ -331,11 +369,57 @@ function buy(id) {
   $('md').classList.add('on');
 }
 function pick(t) { lic = t; $('l_lease').classList.toggle('on', t === 'lease'); $('l_exclusive').classList.toggle('on', t === 'exclusive'); }
-function checkout(id) {
-  const b = BEATS.find(x => x.id === id), p = lic === 'lease' ? b.lease_price : b.exclusive_price;
-  const m = `Hey! I want to buy the beat "${b.title}" (${b.bpm || '-'} BPM, ${b.key || '-'}) — ${lic.toUpperCase()} license for ${usd(p)}.`;
-  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(m)}`, '_blank');
+async function checkout(id) {
+  if (!USER) { pendingBuy = id; return authOpen('in', 'Sign in to place your order'); }
+  const b = BEATS.find(x => x.id === id), nm = USER.user_metadata?.full_name || USER.email;
+  const { data, error } = await sb.from('orders').insert({ beat_id: id, license: lic, customer_name: nm, customer_email: USER.email }).select().single();
+  if (error) return toast(error.message);
+  const ref = data.id.slice(0, 8).toUpperCase();
+  const m = `Hey! Order #${ref}: "${b.title}" (${b.bpm || '-'} BPM, ${b.key || '-'}) - ${lic.toUpperCase()} license, ${usd(data.price)}. Name: ${nm}`;
+  $('mb').innerHTML = `<h3>ORDER #${ref} PLACED</h3><p class="mono" style="font-size:11px;color:var(--muted);margin:8px 0 18px">${esc(b.title)} · ${lic.toUpperCase()} · ${usd(data.price)}<br>Message me to confirm payment and get your files.</p>
+    <a class="btn" style="width:100%" target="_blank" href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(m)}">${IC('wa')} CONFIRM ON WHATSAPP</a>
+    <button class="btn o" style="width:100%;margin-top:10px" onclick="showOrders()">VIEW MY ORDERS</button>`;
 }
+function authOpen(m, msg) {
+  authMode = m || 'in'; const up = authMode === 'up';
+  $('mb').innerHTML = `<h3>${up ? 'CREATE ACCOUNT' : 'SIGN IN'}</h3><p class="mono" style="font-size:11px;color:var(--muted);margin:6px 0 16px">${esc(msg || 'Track your orders and check out faster.')}</p>
+    <div class="lg2">${up ? '<input id="uName" placeholder="Full name">' : ''}<input id="uEmail" type="email" placeholder="Email"><input id="uPass" type="password" placeholder="Password (min 6 characters)">
+    <button class="btn" onclick="authGo()">${up ? 'SIGN UP' : 'SIGN IN'} →</button>
+    <a class="sw" onclick="authOpen('${up ? 'in' : 'up'}')">${up ? 'HAVE AN ACCOUNT? SIGN IN' : 'NO ACCOUNT? SIGN UP'}</a></div>`;
+  $('md').classList.add('on');
+}
+async function authGo() {
+  const email = $('uEmail').value.trim(), password = $('uPass').value;
+  try {
+    const r = authMode === 'up' ? await sb.auth.signUp({ email, password, options: { data: { full_name: $('uName').value.trim() } } }) : await sb.auth.signInWithPassword({ email, password });
+    if (r.error) return toast(r.error.message);
+    if (authMode === 'up' && !r.data.session) { $('md').classList.remove('on'); return toast('Check your email to confirm, then sign in'); }
+    $('md').classList.remove('on'); toast('Welcome!');
+  } catch (e) { toast('Cannot reach Supabase'); }
+}
+function renderNav() {
+  const n = USER ? (USER.user_metadata?.full_name || USER.email).split(' ')[0] : '';
+  $('navAuth').innerHTML = USER
+    ? `<a onclick="showOrders()" style="cursor:pointer;margin-right:14px">${esc(n)} · MY ORDERS</a><a class="nb" onclick="sb.auth.signOut()" style="cursor:pointer">SIGN OUT</a>`
+    : `<a onclick="authOpen('in')" style="cursor:pointer;margin-right:14px">SIGN IN</a><a class="nb" onclick="authOpen('up')" style="cursor:pointer">SIGN UP</a>`;
+}
+async function showOrders() {
+  const { data, error } = await sb.from('orders').select('*').eq('user_id', USER.id).order('created_at', { ascending: false });
+  if (error) return toast(error.message);
+  $('mb').innerHTML = '<h3>MY ORDERS</h3>' + ((data || []).map(o => `<div class="lic" style="cursor:default"><div>${esc(o.beat_title)}<small>#${o.id.slice(0, 8).toUpperCase()} · ${o.license.toUpperCase()} · ${new Date(o.created_at).toLocaleDateString()}</small></div><div style="text-align:right"><b>${usd(o.price)}</b><small class="acc">${o.status.toUpperCase()}</small></div></div>`).join('') || '<div class="empty" style="margin-top:14px">NO ORDERS YET</div>') + `<button class="btn o" style="margin-top:14px" onclick="$('md').classList.remove('on')">CLOSE</button>`;
+  $('md').classList.add('on');
+}
+function fillIG() {
+  const c = BEATS.filter(b => b.cover_url).slice(0, 6);
+  $('igGrid').innerHTML = Array.from({ length: 6 }, (_, i) => `<a class="igt" target="_blank" href="https://instagram.com/lehmanntf" style="background-image:url('${esc(c[i]?.cover_url || '')}')">${IC('ig')}</a>`).join('');
+}
+async function loadOrders() {
+  const { data, error } = await sb.from('orders').select('*').order('created_at', { ascending: false });
+  if (error) return toast(error.message);
+  $('orderList').innerHTML = (data || []).map(o => `<div class="ar" style="grid-template-columns:1fr auto"><div><b>${esc(o.beat_title)}</b> <span class="mono" style="font-size:10px;color:var(--muted)">#${o.id.slice(0, 8).toUpperCase()} · ${o.license.toUpperCase()} · ${usd(o.price)}<br>${esc(o.customer_name || '')} · ${esc(o.customer_email || '')} · ${new Date(o.created_at).toLocaleString()}</span></div>
+    <select onchange="setOrder('${o.id}',this.value)">${['pending', 'paid', 'delivered', 'cancelled'].map(x => `<option ${x === o.status ? 'selected' : ''}>${x}</option>`).join('')}</select></div>`).join('') || '<div class="empty">NO ORDERS YET</div>';
+}
+async function setOrder(id, st) { const { error } = await sb.from('orders').update({ status: st }).eq('id', id); toast(error ? error.message : 'Order marked ' + st); if (!error) loadBeats(); }
 $('md').onclick = e => { if (e.target.id === 'md') $('md').classList.remove('on'); };
 
 /* ===== ADMIN ===== */
@@ -352,7 +436,7 @@ async function checkAdmin() {
   const { data: { session } } = await sb.auth.getSession(); let ok = false;
   if (session) { const r = await sb.rpc('is_admin'); ok = r.data === true; if (!ok) toast('This account is not an admin'); }
   $('loginBox').style.display = ok ? 'none' : 'grid'; $('panel').style.display = ok ? 'block' : 'none';
-  if (ok) { $('adminInfo').textContent = 'Signed in as ' + session.user.email; loadBeats(); }
+  if (ok) { $('adminInfo').textContent = 'Signed in as ' + session.user.email; loadBeats(); loadOrders(); }
 }
 function renderAdmin() {
   $('adminList').innerHTML = BEATS.map(b => `<div class="ar"><div class="cv" style="background-image:url('${esc(b.cover_url || FALLBACK)}')"></div>
@@ -392,6 +476,7 @@ async function delBeat(id) {
 
 /* ROUTER */
 function route() { const a = location.hash === '#admin'; $('admin').style.display = a ? 'block' : 'none'; $('site').style.display = a ? 'none' : 'block'; if (a) checkAdmin(); }
+sb.auth.onAuthStateChange((ev, sess) => { USER = sess ? sess.user : null; renderNav(); setTimeout(() => { if (location.hash === '#admin') checkAdmin(); if (USER && pendingBuy) { const id = pendingBuy; pendingBuy = null; buy(id); } }, 0); });
 window.addEventListener('hashchange', route); route(); loadBeats();
 </script>
 </body>
