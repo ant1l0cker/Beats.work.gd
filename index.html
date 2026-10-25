@@ -217,7 +217,7 @@ details p{color:var(--muted);font-size:14px;line-height:1.8;margin-top:12px}
 <section id="how"><div class="sl">03 / HOW IT WORKS</div><h2 class="st">FROM PREVIEW TO RELEASE</h2><div class="g3">
 <div class="step"><i>01</i><h4>Browse &amp; preview</h4><p>Filter by genre, BPM and key. Play every beat in full before you decide.</p></div>
 <div class="step"><i>02</i><h4>Sign in &amp; order</h4><p>Create a free account, pick Lease or Exclusive and place your order in one tap. You can track it under My Orders.</p></div>
-<div class="step"><i>03</i><h4>Pay &amp; receive files</h4><p>Your order opens a WhatsApp chat with the order number. Once payment is confirmed, your files are delivered.</p></div></div></section>
+<div class="step"><i>03</i><h4>Pay &amp; receive files</h4><p>Your order number is sent to me on WhatsApp or Instagram DM. Once payment is confirmed, your files are delivered.</p></div></div></section>
 
 <section id="licenses"><div class="sl">04 / LICENSING</div><h2 class="st">PICK YOUR LICENSE</h2><div class="g2">
 <div class="card"><h3><svg class="ic"><use href="#i-disc"/></svg> LEASE</h3><p>Release your music legally with a high-quality WAV and commercial streaming rights.</p><ul><li>MP3 + WAV delivery</li><li>Commercial streaming rights</li><li>Beat stays in the store for other artists</li></ul><div class="p">FROM $15</div><small>PER BEAT</small><a class="btn" href="#store">BROWSE BEATS →</a></div>
@@ -230,14 +230,14 @@ details p{color:var(--muted);font-size:14px;line-height:1.8;margin-top:12px}
 <details><summary>How do I receive my beat?</summary><p>After you place an order and payment is confirmed on WhatsApp, your files are sent to you. Order status updates appear under My Orders.</p></details>
 <details><summary>What is the difference between Lease and Exclusive?</summary><p>A lease gives you a WAV file and commercial streaming rights while the beat stays available to others. Exclusive gives you full ownership with stems, and the beat is taken off the store.</p></details>
 <details><summary>Can I preview a beat before buying?</summary><p>Yes. Press play on any beat to hear the full preview. Previews are for listening only.</p></details>
-<details><summary>How do I pay?</summary><p>Payment is arranged with me on WhatsApp right after you place your order.</p></details>
+<details><summary>How do I pay?</summary><p>Payment is arranged with me right after you place your order, either on WhatsApp or by Instagram DM (@lehmanntf).</p></details>
 <details><summary>Can I get a custom beat or bulk deal?</summary><p>Yes. Message me on WhatsApp or Instagram with what you have in mind.</p></details></section>
 
 <section id="contact">
   <div class="sl" style="justify-content:center">07 / CONTACT</div>
   <h2 class="ct">LET'S <span class="acc">WORK</span></h2>
   <p style="color:var(--muted);font-size:14px;margin:20px auto 40px;max-width:480px">Custom beats, bulk deals or questions about a license? Hit me up on WhatsApp or Instagram.</p>
-  <div class="ctas" style="justify-content:center"><a class="btn" id="waMain" target="_blank"><svg class="ic "><use href="#i-wa"/></svg> WHATSAPP</a><a class="btn o" target="_blank" href="https://instagram.com/lehmanntf"><svg class="ic "><use href="#i-ig"/></svg> INSTAGRAM</a></div>
+  <div class="ctas" style="justify-content:center"><a class="btn" id="waMain" target="_blank"><svg class="ic "><use href="#i-wa"/></svg> WHATSAPP</a><a class="btn o" target="_blank" href="https://ig.me/m/lehmanntf"><svg class="ic "><use href="#i-ig"/></svg> DM ON INSTAGRAM</a></div>
 </section>
 
 <footer><div>© 2026 BEATS.WORK. ALL RIGHTS RESERVED.</div><div><a href="#store">BEATS</a><a href="#licenses">LICENSES</a><a href="#insta">INSTAGRAM</a><a href="#faq">FAQ</a><a href="#contact">CONTACT</a></div></footer>
@@ -299,7 +299,7 @@ const IC = n => `<svg class="ic"><use href="#i-${n}"/></svg>`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const usd = n => '$' + Number(n || 0).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 const FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Crect width='10' height='10' fill='%231a1a1a'/%3E%3C/svg%3E";
-let BEATS = [], genre = '', cur = null, USER = null, pendingBuy = null, authMode = 'in';
+let BEATS = [], genre = '', cur = null, USER = null, pendingBuy = null, authMode = 'in', lastMsg = '';
 $('waMain').href = $('waRail').href = 'https://wa.me/' + WHATSAPP;
 
 function toast(m) { const t = $('toast'); t.textContent = m; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 2800); }
@@ -380,9 +380,16 @@ async function checkout(id) {
   if (error) return toast(error.message);
   const ref = data.id.slice(0, 8).toUpperCase();
   const m = `Hey! Order #${ref}: "${b.title}" (${b.bpm || '-'} BPM, ${b.key || '-'}) - ${lic.toUpperCase()} license, ${usd(data.price)}. Name: ${nm}`;
+  lastMsg = m;
   $('mb').innerHTML = `<h3>ORDER #${ref} PLACED</h3><p class="mono" style="font-size:11px;color:var(--muted);margin:8px 0 18px">${esc(b.title)} · ${lic.toUpperCase()} · ${usd(data.price)}<br>Message me to confirm payment and get your files.</p>
     <a class="btn" style="width:100%" target="_blank" href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(m)}">${IC('wa')} CONFIRM ON WHATSAPP</a>
+    <button class="btn o" style="width:100%;margin-top:10px" onclick="igOrder()">${IC('ig')} ORDER VIA INSTAGRAM</button>
+    <p class="mono" style="font-size:10px;color:var(--muted);margin:8px 0 0">Instagram: your order message is copied. Paste it in the DM and send.</p>
     <button class="btn o" style="width:100%;margin-top:10px" onclick="showOrders()">VIEW MY ORDERS</button>`;
+}
+function igOrder() {
+  window.open('https://ig.me/m/lehmanntf', '_blank');
+  navigator.clipboard.writeText(lastMsg).then(() => toast('Order message copied. Paste it in the DM'), () => toast('Open the DM and send your order number'));
 }
 function authOpen(m, msg) {
   authMode = m || 'in'; const up = authMode === 'up';
@@ -415,10 +422,12 @@ async function showOrders() {
   $('md').classList.add('on');
 }
 async function dl(id, kind) {
-  const b = BEATS.find(x => x.id === id), path = b && (kind === 'stems' ? b.stems_path : b.file_path);
-  if (!path) return toast('File not uploaded yet. Message me on WhatsApp.');
+  const { data: row, error: e1 } = await sb.from('beats').select('file_path,stems_path').eq('id', id).maybeSingle();
+  if (e1) return toast(e1.message);
+  const path = row && (kind === 'stems' ? row.stems_path : row.file_path);
+  if (!path) return toast((kind === 'stems' ? 'Stems are' : 'The beat file is') + ' not uploaded yet. Message me on WhatsApp.');
   const { data, error } = await sb.storage.from('beat-files').createSignedUrl(path, 120, { download: true });
-  if (error) return toast('Download not available yet');
+  if (error) return toast('Download blocked: ' + error.message);
   window.location.href = data.signedUrl;
 }
 function fillIG() {
@@ -452,7 +461,7 @@ async function checkAdmin() {
 }
 function renderAdmin() {
   $('adminList').innerHTML = BEATS.map(b => `<div class="ar"><div class="cv" style="background-image:url('${esc(b.cover_url || FALLBACK)}')"></div>
-    <div><b>${esc(b.title)}</b> <span class="mono" style="font-size:10px;color:var(--muted)">${b.status.toUpperCase()}${b.featured ? ' · FEATURED' : ''} · ${b.bpm || '-'} BPM · ${esc(b.key || '-')} · ${b.plays} plays · ${usd(b.lease_price)} / ${usd(b.exclusive_price)}</span></div>
+    <div><b>${esc(b.title)}</b> <span class="mono" style="font-size:10px;color:var(--muted)">${b.status.toUpperCase()}${b.featured ? ' · FEATURED' : ''} · ${b.bpm || '-'} BPM · ${esc(b.key || '-')} · ${b.plays} plays · FILE ${b.file_path ? 'OK' : 'MISSING'}${b.stems_path ? ' · STEMS OK' : ''} · ${usd(b.lease_price)} / ${usd(b.exclusive_price)}</span></div>
     <button class="btn o sm" onclick="editBeat('${b.id}')">EDIT</button><button class="btn d sm" onclick="delBeat('${b.id}')">DELETE</button></div>`).join('') || '<div class="empty">NO BEATS YET — ADD YOUR FIRST ONE ABOVE</div>';
 }
 const F = { title: 'f_title', artist: 'f_artist', genre: 'f_genre', bpm: 'f_bpm', key: 'f_key', mood: 'f_mood', lease_price: 'f_lease', exclusive_price: 'f_excl', status: 'f_status', cover_url: 'f_cover', audio_url: 'f_audio', youtube_url: 'f_yt', file_path: 'f_file', stems_path: 'f_stems' };
