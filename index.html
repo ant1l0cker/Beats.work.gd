@@ -269,6 +269,10 @@ details p{color:var(--muted);font-size:14px;line-height:1.8;margin-top:12px}
       <label class="w2">Audio preview (mp3 / wav)<input id="f_audioFile" type="file" accept="audio/*"></label>
       <label class="w2">Cover URL (auto-filled)<input id="f_cover"></label>
       <label class="w2">Audio URL (auto-filled)<input id="f_audio"></label>
+      <label class="w2">Full file for buyers (WAV / ZIP, private)<input id="f_fileFile" type="file"></label>
+      <label class="w2">Stems ZIP (exclusive buyers only, private)<input id="f_stemsFile" type="file"></label>
+      <label class="w2">Full file path (auto)<input id="f_file" readonly></label>
+      <label class="w2">Stems path (auto)<input id="f_stems" readonly></label>
       <label class="w4">YouTube URL (optional)<input id="f_yt"></label>
       <div class="w4" style="display:flex;gap:10px"><button class="btn" id="saveBtn" onclick="saveBeat()">SAVE BEAT</button><button class="btn o" onclick="resetForm()">CLEAR</button></div>
     </div>
@@ -287,7 +291,7 @@ details p{color:var(--muted);font-size:14px;line-height:1.8;margin-top:12px}
 /* ===== CONFIG — paste from Supabase > Project Settings > API ===== */
 const SUPABASE_URL = 'https://qiphlnuwyumrjxbcxhuw.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_QXl2oOqJSXMATbxtgkt1hQ_JxWIfw-r';
-const WHATSAPP = '254700000000';
+const WHATSAPP = '254118053450';
 /* ================================================================= */
 const sb = supabase.createClient(SUPABASE_URL.trim().replace(/\/+$/, ''), SUPABASE_ANON_KEY.trim());
 const $ = id => document.getElementById(id);
@@ -406,8 +410,16 @@ function renderNav() {
 async function showOrders() {
   const { data, error } = await sb.from('orders').select('*').eq('user_id', USER.id).order('created_at', { ascending: false });
   if (error) return toast(error.message);
-  $('mb').innerHTML = '<h3>MY ORDERS</h3>' + ((data || []).map(o => `<div class="lic" style="cursor:default"><div>${esc(o.beat_title)}<small>#${o.id.slice(0, 8).toUpperCase()} · ${o.license.toUpperCase()} · ${new Date(o.created_at).toLocaleDateString()}</small></div><div style="text-align:right"><b>${usd(o.price)}</b><small class="acc">${o.status.toUpperCase()}</small></div></div>`).join('') || '<div class="empty" style="margin-top:14px">NO ORDERS YET</div>') + `<button class="btn o" style="margin-top:14px" onclick="$('md').classList.remove('on')">CLOSE</button>`;
+  $('mb').innerHTML = '<h3>MY ORDERS</h3>' + ((data || []).map(o => `<div class="lic" style="cursor:default;flex-wrap:wrap;gap:10px"><div>${esc(o.beat_title)}<small>#${o.id.slice(0, 8).toUpperCase()} · ${o.license.toUpperCase()} · ${new Date(o.created_at).toLocaleDateString()}</small></div><div style="text-align:right"><b>${usd(o.price)}</b><small class="acc">${o.status.toUpperCase()}</small></div>
+    ${o.status === 'delivered' && o.beat_id ? `<div style="width:100%;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" onclick="dl('${o.beat_id}','file')">DOWNLOAD BEAT</button>${o.license === 'exclusive' ? `<button class="btn o sm" onclick="dl('${o.beat_id}','stems')">DOWNLOAD STEMS</button>` : ''}</div>` : ''}</div>`).join('') || '<div class="empty" style="margin-top:14px">NO ORDERS YET</div>') + `<button class="btn o" style="margin-top:14px" onclick="$('md').classList.remove('on')">CLOSE</button>`;
   $('md').classList.add('on');
+}
+async function dl(id, kind) {
+  const b = BEATS.find(x => x.id === id), path = b && (kind === 'stems' ? b.stems_path : b.file_path);
+  if (!path) return toast('File not uploaded yet. Message me on WhatsApp.');
+  const { data, error } = await sb.storage.from('beat-files').createSignedUrl(path, 120, { download: true });
+  if (error) return toast('Download not available yet');
+  window.location.href = data.signedUrl;
 }
 function fillIG() {
   const c = BEATS.filter(b => b.cover_url).slice(0, 6);
@@ -443,7 +455,7 @@ function renderAdmin() {
     <div><b>${esc(b.title)}</b> <span class="mono" style="font-size:10px;color:var(--muted)">${b.status.toUpperCase()}${b.featured ? ' · FEATURED' : ''} · ${b.bpm || '-'} BPM · ${esc(b.key || '-')} · ${b.plays} plays · ${usd(b.lease_price)} / ${usd(b.exclusive_price)}</span></div>
     <button class="btn o sm" onclick="editBeat('${b.id}')">EDIT</button><button class="btn d sm" onclick="delBeat('${b.id}')">DELETE</button></div>`).join('') || '<div class="empty">NO BEATS YET — ADD YOUR FIRST ONE ABOVE</div>';
 }
-const F = { title: 'f_title', artist: 'f_artist', genre: 'f_genre', bpm: 'f_bpm', key: 'f_key', mood: 'f_mood', lease_price: 'f_lease', exclusive_price: 'f_excl', status: 'f_status', cover_url: 'f_cover', audio_url: 'f_audio', youtube_url: 'f_yt' };
+const F = { title: 'f_title', artist: 'f_artist', genre: 'f_genre', bpm: 'f_bpm', key: 'f_key', mood: 'f_mood', lease_price: 'f_lease', exclusive_price: 'f_excl', status: 'f_status', cover_url: 'f_cover', audio_url: 'f_audio', youtube_url: 'f_yt', file_path: 'f_file', stems_path: 'f_stems' };
 function resetForm() { document.querySelectorAll('#fm input,#fm textarea').forEach(i => { if (i.type === 'checkbox') i.checked = false; else i.value = ''; }); $('f_artist').value = 'Prod by Lehmann'; $('f_lease').value = 15; $('f_excl').value = 60; $('f_status').value = 'published'; $('saveBtn').textContent = 'SAVE BEAT'; }
 function editBeat(id) {
   const b = BEATS.find(x => x.id === id); resetForm(); $('f_id').value = id;
@@ -455,12 +467,18 @@ async function up(bucket, file) {
   const { error } = await sb.storage.from(bucket).upload(path, file, { upsert: true }); if (error) throw error;
   return sb.storage.from(bucket).getPublicUrl(path).data.publicUrl;
 }
+async function upPath(bucket, file) {
+  const path = Date.now() + '-' + file.name.replace(/[^\w.\-]/g, '_');
+  const { error } = await sb.storage.from(bucket).upload(path, file, { upsert: true }); if (error) throw error; return path;
+}
 async function saveBeat() {
   if (!$('f_title').value.trim()) return toast('Title required');
   $('saveBtn').textContent = 'SAVING…';
   try {
     if ($('f_coverFile').files[0]) $('f_cover').value = await up('beat-covers', $('f_coverFile').files[0]);
     if ($('f_audioFile').files[0]) $('f_audio').value = await up('beat-audio', $('f_audioFile').files[0]);
+    if ($('f_fileFile').files[0]) $('f_file').value = await upPath('beat-files', $('f_fileFile').files[0]);
+    if ($('f_stemsFile').files[0]) $('f_stems').value = await upPath('beat-files', $('f_stemsFile').files[0]);
     const row = {}; Object.entries(F).forEach(([k, el]) => { const v = $(el).value.trim(); row[k] = ['bpm', 'lease_price', 'exclusive_price'].includes(k) ? (v === '' ? null : +v) : (v || null); });
     row.title = $('f_title').value.trim(); row.artist = row.artist || 'Prod by Lehmann'; row.status = $('f_status').value;
     row.tags = $('f_tags').value.split(',').map(t => t.trim()).filter(Boolean); row.featured = $('f_feat').checked;
