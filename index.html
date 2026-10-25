@@ -180,7 +180,7 @@ footer a{text-decoration:none;margin-left:16px}footer a:hover{color:var(--accent
   </div>
 </header>
 
-<div class="tick"><div><span><svg class="ic"><use href="#i-disc"/></svg>NEW BEATS WEEKLY</span><span><svg class="ic"><use href="#i-play"/></svg>INSTANT DELIVERY</span><span><svg class="ic"><use href="#i-keys"/></svg>LEASE 2,000 KES</span><span><svg class="ic"><use href="#i-crown"/></svg>EXCLUSIVE 8,000 KES</span><span><svg class="ic"><use href="#i-disc"/></svg>NEW BEATS WEEKLY</span><span><svg class="ic"><use href="#i-play"/></svg>INSTANT DELIVERY</span><span><svg class="ic"><use href="#i-keys"/></svg>LEASE 2,000 KES</span><span><svg class="ic"><use href="#i-crown"/></svg>EXCLUSIVE 8,000 KES</span></div></div>
+<div class="tick"><div><span><svg class="ic"><use href="#i-disc"/></svg>NEW BEATS WEEKLY</span><span><svg class="ic"><use href="#i-play"/></svg>INSTANT DELIVERY</span><span><svg class="ic"><use href="#i-keys"/></svg>LEASE FROM $15</span><span><svg class="ic"><use href="#i-crown"/></svg>EXCLUSIVE FROM $60</span><span><svg class="ic"><use href="#i-disc"/></svg>NEW BEATS WEEKLY</span><span><svg class="ic"><use href="#i-play"/></svg>INSTANT DELIVERY</span><span><svg class="ic"><use href="#i-keys"/></svg>LEASE FROM $15</span><span><svg class="ic"><use href="#i-crown"/></svg>EXCLUSIVE FROM $60</span></div></div>
 
 <section id="store">
   <div class="sl">01 / BEAT STORE</div>
@@ -223,8 +223,8 @@ footer a{text-decoration:none;margin-left:16px}footer a:hover{color:var(--accent
       <label>Key<input id="f_key" placeholder="F# Minor"></label>
       <label>Mood<input id="f_mood" placeholder="Dark, Emotional"></label>
       <label>Tags (comma separated)<input id="f_tags" placeholder="808, melodic, sad"></label>
-      <label>Lease Price (KES)<input id="f_lease" type="number" value="2000"></label>
-      <label>Exclusive Price (KES)<input id="f_excl" type="number" value="8000"></label>
+      <label>Lease Price (USD)<input id="f_lease" type="number" step="0.01" value="15"></label>
+      <label>Exclusive Price (USD)<input id="f_excl" type="number" step="0.01" value="60"></label>
       <label>Status<select id="f_status"><option value="published">Published</option><option value="draft">Draft (hidden)</option><option value="sold">Sold out</option></select></label>
       <label class="ck"><input type="checkbox" id="f_feat"> Featured</label>
       <label class="w2">Cover image<input id="f_coverFile" type="file" accept="image/*"></label>
@@ -255,7 +255,7 @@ const sb = supabase.createClient(SUPABASE_URL.trim().replace(/\/+$/, ''), SUPABA
 const $ = id => document.getElementById(id);
 const IC = n => `<svg class="ic"><use href="#i-${n}"/></svg>`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const kes = n => Number(n || 0).toLocaleString() + ' KES';
+const usd = n => '$' + Number(n || 0).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 const FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Crect width='10' height='10' fill='%231a1a1a'/%3E%3C/svg%3E";
 let BEATS = [], genre = '', cur = null;
 $('waMain').href = $('waRail').href = 'https://wa.me/' + WHATSAPP;
@@ -298,8 +298,8 @@ function render() {
       <div><div class="bt">${esc(b.title)}${b.featured ? '<em>FEATURED</em>' : ''}${b.status === 'sold' ? '<em class="sold">SOLD</em>' : ''}</div>
         <div class="mono" style="font-size:10px;color:var(--muted)">${esc(b.artist)} · ${b.plays || 0} plays</div>
         <div class="tg">${b.bpm ? `<i>${b.bpm} BPM</i>` : ''}${b.key ? `<i class="k">${esc(b.key)}</i>` : ''}<i>${esc(b.genre)}</i>${b.mood ? `<i>${esc(b.mood)}</i>` : ''}${(b.tags || []).slice(0, 3).map(t => `<i>#${esc(t)}</i>`).join('')}</div></div>
-      <div class="act" style="display:flex;align-items:center"><div class="pr">LEASE ${kes(b.lease_price)}<br>EXCL. ${kes(b.exclusive_price)}</div>
-        ${b.status === 'sold' ? '<button class="btn o sm" disabled>SOLD OUT</button>' : `<button class="btn" onclick="buy('${b.id}')">${IC('cart')} ${Number(b.lease_price).toLocaleString()} KES</button>`}</div>
+      <div class="act" style="display:flex;align-items:center"><div class="pr">LEASE ${usd(b.lease_price)}<br>EXCL. ${usd(b.exclusive_price)}</div>
+        ${b.status === 'sold' ? '<button class="btn o sm" disabled>SOLD OUT</button>' : `<button class="btn" onclick="buy('${b.id}')">${IC('cart')} ${usd(b.lease_price)}</button>`}</div>
     </div>`).join('') : '<div class="empty">NO BEATS FOUND. TRY ANOTHER SEARCH.</div>';
 }
 ['q', 'keyF', 'sort'].forEach(i => $(i).addEventListener('input', render));
@@ -325,15 +325,15 @@ let lic = 'lease';
 function buy(id) {
   const b = BEATS.find(x => x.id === id); lic = 'lease';
   $('mb').innerHTML = `<h3>${esc(b.title)}</h3><p class="mono" style="font-size:11px;color:var(--muted)">${[b.bpm && b.bpm + ' BPM', b.key, b.genre].filter(Boolean).join(' · ')}</p>
-    <div class="lic on" id="l_lease" onclick="pick('lease')"><div>MP3 + WAV LEASE<small>Commercial streaming rights · WAV file</small></div><b>${kes(b.lease_price)}</b></div>
-    <div class="lic" id="l_exclusive" onclick="pick('exclusive')"><div>EXCLUSIVE RIGHTS<small>100% ownership · stems · beat removed from store</small></div><b>${kes(b.exclusive_price)}</b></div>
+    <div class="lic on" id="l_lease" onclick="pick('lease')"><div>MP3 + WAV LEASE<small>Commercial streaming rights · WAV file</small></div><b>${usd(b.lease_price)}</b></div>
+    <div class="lic" id="l_exclusive" onclick="pick('exclusive')"><div>EXCLUSIVE RIGHTS<small>100% ownership · stems · beat removed from store</small></div><b>${usd(b.exclusive_price)}</b></div>
     <div style="display:flex;gap:10px;margin-top:20px"><button class="btn" style="flex:1" onclick="checkout('${b.id}')">${IC('wa')} ORDER VIA WHATSAPP</button><button class="btn o" onclick="$('md').classList.remove('on')">CLOSE</button></div>`;
   $('md').classList.add('on');
 }
 function pick(t) { lic = t; $('l_lease').classList.toggle('on', t === 'lease'); $('l_exclusive').classList.toggle('on', t === 'exclusive'); }
 function checkout(id) {
   const b = BEATS.find(x => x.id === id), p = lic === 'lease' ? b.lease_price : b.exclusive_price;
-  const m = `Hey Lehmann! I want to buy the beat "${b.title}" (${b.bpm || '-'} BPM, ${b.key || '-'}) — ${lic.toUpperCase()} license for ${kes(p)}.`;
+  const m = `Hey Lehmann! I want to buy the beat "${b.title}" (${b.bpm || '-'} BPM, ${b.key || '-'}) — ${lic.toUpperCase()} license for ${usd(p)}.`;
   window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(m)}`, '_blank');
 }
 $('md').onclick = e => { if (e.target.id === 'md') $('md').classList.remove('on'); };
@@ -356,11 +356,11 @@ async function checkAdmin() {
 }
 function renderAdmin() {
   $('adminList').innerHTML = BEATS.map(b => `<div class="ar"><div class="cv" style="background-image:url('${esc(b.cover_url || FALLBACK)}')"></div>
-    <div><b>${esc(b.title)}</b> <span class="mono" style="font-size:10px;color:var(--muted)">${b.status.toUpperCase()}${b.featured ? ' · FEATURED' : ''} · ${b.bpm || '-'} BPM · ${esc(b.key || '-')} · ${b.plays} plays · ${kes(b.lease_price)} / ${kes(b.exclusive_price)}</span></div>
+    <div><b>${esc(b.title)}</b> <span class="mono" style="font-size:10px;color:var(--muted)">${b.status.toUpperCase()}${b.featured ? ' · FEATURED' : ''} · ${b.bpm || '-'} BPM · ${esc(b.key || '-')} · ${b.plays} plays · ${usd(b.lease_price)} / ${usd(b.exclusive_price)}</span></div>
     <button class="btn o sm" onclick="editBeat('${b.id}')">EDIT</button><button class="btn d sm" onclick="delBeat('${b.id}')">DELETE</button></div>`).join('') || '<div class="empty">NO BEATS YET — ADD YOUR FIRST ONE ABOVE</div>';
 }
 const F = { title: 'f_title', artist: 'f_artist', genre: 'f_genre', bpm: 'f_bpm', key: 'f_key', mood: 'f_mood', lease_price: 'f_lease', exclusive_price: 'f_excl', status: 'f_status', cover_url: 'f_cover', audio_url: 'f_audio', youtube_url: 'f_yt' };
-function resetForm() { document.querySelectorAll('#fm input,#fm textarea').forEach(i => { if (i.type === 'checkbox') i.checked = false; else i.value = ''; }); $('f_artist').value = 'Prod by Lehmann'; $('f_lease').value = 2000; $('f_excl').value = 8000; $('f_status').value = 'published'; $('saveBtn').textContent = 'SAVE BEAT'; }
+function resetForm() { document.querySelectorAll('#fm input,#fm textarea').forEach(i => { if (i.type === 'checkbox') i.checked = false; else i.value = ''; }); $('f_artist').value = 'Prod by Lehmann'; $('f_lease').value = 15; $('f_excl').value = 60; $('f_status').value = 'published'; $('saveBtn').textContent = 'SAVE BEAT'; }
 function editBeat(id) {
   const b = BEATS.find(x => x.id === id); resetForm(); $('f_id').value = id;
   Object.entries(F).forEach(([k, el]) => $(el).value = b[k] ?? ''); $('f_tags').value = (b.tags || []).join(', '); $('f_feat').checked = b.featured;
