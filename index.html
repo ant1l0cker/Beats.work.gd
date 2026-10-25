@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PROD BY LEHMANN — Beat Store · Trap · Trapsoul · RNB</title>
+<title>Beats.Work — Beat Store · Trap · Trapsoul · RNB</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--accent:#caff00;--accent2:#a8d600;--text:#f0f0f0;--muted:#777;--border:#242424}
@@ -158,7 +158,7 @@ footer a{text-decoration:none;margin-left:16px}footer a:hover{color:var(--accent
 <div id="toast"></div>
 
 <nav>
-  <a href="#" class="logo">PROD BY <span>LEHMANN</span></a>
+  <a href="#" class="logo">BEATS<span>.WORK</span></a>
   <ul><li><a href="#store">Beats</a></li><li><a href="#contact" class="nb">CONTACT</a></li></ul>
 </nav>
 
@@ -168,7 +168,7 @@ footer a{text-decoration:none;margin-left:16px}footer a:hover{color:var(--accent
   <div class="slides" id="slides"></div><div class="ov"></div><div class="grain"></div>
   <div class="hc">
     <div class="eb">TRAP · TRAPSOUL · RNB</div>
-    <h1 class="ht">PROD BY <span class="acc">LEHMANN</span></h1>
+    <h1 class="ht">BEATS<span class="acc">.WORK</span></h1>
     <p class="hs">BEATS THAT HIT DIFFERENT</p>
     <div class="stats">
       <div class="stat"><b id="sBeats">200+</b><small>Beats</small></div>
@@ -202,7 +202,7 @@ footer a{text-decoration:none;margin-left:16px}footer a:hover{color:var(--accent
   <div class="ctas" style="justify-content:center"><a class="btn" id="waMain" target="_blank"><svg class="ic "><use href="#i-wa"/></svg> WHATSAPP</a><a class="btn o" target="_blank" href="https://instagram.com/prodbylehmann"><svg class="ic "><use href="#i-ig"/></svg> INSTAGRAM</a></div>
 </section>
 
-<footer><div>© 2026 PROD BY LEHMANN. ALL RIGHTS RESERVED.</div><div><a href="#store">BEATS</a><a href="#contact">CONTACT</a><a href="#admin">ADMIN</a></div></footer>
+<footer><div>© 2026 BEATS.WORK. ALL RIGHTS RESERVED.</div><div><a href="#store">BEATS</a><a href="#contact">CONTACT</a></div></footer>
 </div>
 
 <!-- ADMIN -->
@@ -333,7 +333,7 @@ function buy(id) {
 function pick(t) { lic = t; $('l_lease').classList.toggle('on', t === 'lease'); $('l_exclusive').classList.toggle('on', t === 'exclusive'); }
 function checkout(id) {
   const b = BEATS.find(x => x.id === id), p = lic === 'lease' ? b.lease_price : b.exclusive_price;
-  const m = `Hey Lehmann! I want to buy the beat "${b.title}" (${b.bpm || '-'} BPM, ${b.key || '-'}) — ${lic.toUpperCase()} license for ${usd(p)}.`;
+  const m = `Hey! I want to buy the beat "${b.title}" (${b.bpm || '-'} BPM, ${b.key || '-'}) — ${lic.toUpperCase()} license for ${usd(p)}.`;
   window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(m)}`, '_blank');
 }
 $('md').onclick = e => { if (e.target.id === 'md') $('md').classList.remove('on'); };
