@@ -1,1405 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PROD BY LEHMANN — Trap · Trapsoul · RNB</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0a0a0a;
-      --bg2: #111111;
-      --bg3: #1a1a1a;
-      --accent: #caff00;
-      --accent2: #a8d600;
-      --text: #f0f0f0;
-      --muted: #666;
-      --border: #222;
-      --white: #ffffff;
-    }
-
-    .theme-red {
-      --accent: #ff2d55;
-      --accent2: #cc1a3f;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-      transition: --accent 0.4s;
-    }
-
-    /* THEME TOGGLE */
-    .theme-toggle {
-      position: fixed;
-      top: 50%;
-      right: 0;
-      transform: translateY(-50%);
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .theme-toggle button {
-      width: 12px;
-      height: 48px;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .theme-toggle button:hover {
-      transform: scaleX(1.5);
-    }
-    .btn-green {
-      background: #caff00;
-    }
-    .btn-red {
-      background: #ff2d55;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 999;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 24px 48px;
-      mix-blend-mode: normal;
-    }
-
-    nav::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(10, 10, 10, 0.95) 0%, transparent 100%);
-      pointer-events: none;
-    }
-
-    .logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px;
-      letter-spacing: 0.15em;
-      color: var(--white);
-      text-decoration: none;
-      position: relative;
-      z-index: 1;
-    }
-
-    .logo span {
-      color: var(--accent);
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 36px;
-      position: relative;
-      z-index: 1;
-    }
-
-    nav ul a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    nav ul a:hover {
-      color: var(--accent);
-    }
-
-    .nav-book {
-      background: var(--accent);
-      color: #000 !important;
-      padding: 10px 20px;
-      font-weight: 700 !important;
-      transition: background 0.2s, transform 0.2s !important;
-    }
-
-    .nav-book:hover {
-      background: var(--accent2) !important;
-      transform: translateY(-2px);
-      color: #000 !important;
-    }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: flex-end;
-      padding: 0 48px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: #0a0a0a;
-      overflow: hidden;
-    }
-
-    .hero-slides {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-    }
-
-    .hero-slide {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 1.6s ease-in-out;
-      filter: grayscale(90%) contrast(1.05) brightness(0.5);
-    }
-
-    .hero-slide.active {
-      opacity: 0.35;
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.2) 40%, rgba(10, 10, 10, 0.75) 100%),
-        linear-gradient(90deg, rgba(10, 10, 10, 0.8) 0%, transparent 60%),
-        radial-gradient(ellipse at 70% 50%, rgba(202, 255, 0, 0.05) 0%, transparent 60%);
-      z-index: 1;
-    }
-
-    .grain {
-      position: absolute;
-      inset: -50%;
-      width: 200%;
-      height: 200%;
-      opacity: 0.04;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      animation: grain 0.4s steps(1) infinite;
-    }
-
-    @keyframes grain {
-      0%, 100% { transform: translate(0, 0); }
-      10% { transform: translate(-2%, -3%); }
-      20% { transform: translate(3%, 2%); }
-      30% { transform: translate(-1%, 4%); }
-      40% { transform: translate(4%, -1%); }
-      50% { transform: translate(-3%, 3%); }
-      60% { transform: translate(2%, -2%); }
-      70% { transform: translate(-4%, 1%); }
-      80% { transform: translate(3%, -3%); }
-      90% { transform: translate(-2%, 2%); }
-    }
-
-    .hero-arrow {
-      position: absolute;
-      right: -40px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 520px;
-      height: 520px;
-      opacity: 0.12;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 900px;
-    }
-
-    .hero-eyebrow {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      color: var(--accent);
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      width: 40px;
-      height: 1px;
-      background: var(--accent);
-    }
-
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(72px, 10vw, 140px);
-      line-height: 0.9;
-      letter-spacing: -0.01em;
-      color: var(--white);
-      margin-bottom: 8px;
-    }
-
-    .hero-title .accent {
-      color: var(--accent);
-    }
-
-    .hero-sub {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(28px, 4vw, 52px);
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      margin-bottom: 48px;
-    }
-
-    .hero-stats {
-      display: flex;
-      gap: 48px;
-      margin-bottom: 48px;
-    }
-
-    .stat {
-      border-left: 2px solid var(--accent);
-      padding-left: 16px;
-    }
-
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 36px;
-      color: var(--accent);
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 10px;
-      color: var(--muted);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-top: 4px;
-    }
-
-    .hero-ctas {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      border: none;
-      padding: 16px 32px;
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: transform 0.2s, background 0.2s;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent2);
-      transform: translateY(-3px);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--white);
-      border: 1px solid var(--border);
-      padding: 16px 32px;
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .btn-outline:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* TICKER */
-    .ticker {
-      background: var(--accent);
-      padding: 14px 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .ticker-inner {
-      display: inline-flex;
-      animation: ticker 20s linear infinite;
-      gap: 0;
-    }
-
-    .ticker-item {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 14px;
-      letter-spacing: 0.2em;
-      color: #000;
-      padding: 0 32px;
-    }
-
-    @keyframes ticker {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
-    /* SECTIONS */
-    section {
-      padding: 100px 48px;
-    }
-
-    .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      color: var(--accent);
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(42px, 6vw, 80px);
-      line-height: 0.95;
-      margin-bottom: 16px;
-      color: var(--white);
-    }
-
-    /* BEATS SECTION */
-    #beats {
-      background: var(--bg);
-    }
-
-    .yt-cta-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-    }
-
-    .yt-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 20px;
-      background: #111;
-      border: 1px solid #333;
-      padding: 24px 36px;
-      text-decoration: none;
-      cursor: pointer;
-      max-width: 560px;
-      transition: border-color 0.25s, background 0.25s, transform 0.25s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .yt-btn::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: #ff0000;
-      transition: width 0.3s;
-    }
-
-    .yt-btn:hover {
-      border-color: #ff0000;
-      background: #160000;
-      transform: translateY(-4px);
-    }
-
-    .yt-btn:hover::before {
-      width: 8px;
-    }
-
-    .yt-btn-icon {
-      width: 52px;
-      height: 52px;
-      background: #ff0000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: transform 0.2s;
-    }
-
-    .yt-btn:hover .yt-btn-icon {
-      transform: scale(1.08);
-    }
-
-    .yt-btn-icon svg {
-      width: 26px;
-      height: 26px;
-      color: #fff;
-    }
-
-    .yt-btn-label {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      flex: 1;
-    }
-
-    .yt-btn-top {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 26px;
-      letter-spacing: 0.06em;
-      color: var(--white);
-      line-height: 1;
-    }
-
-    .yt-btn-sub {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-
-    .yt-btn-arrow {
-      font-size: 24px;
-      color: #ff0000;
-      font-weight: 300;
-      transition: transform 0.2s;
-    }
-
-    .yt-btn:hover .yt-btn-arrow {
-      transform: translate(4px, -4px);
-    }
-
-    .yt-meta {
-      display: flex;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-
-    .yt-meta-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .yt-meta-icon {
-      font-size: 16px;
-    }
-
-    /* SERVICES / PLANS GRID (3 COLUMNS) */
-    #sessions {
-      background: var(--bg2);
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 60px;
-    }
-
-    .service-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      padding: 40px 32px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: border-color 0.3s;
-    }
-
-    .service-card:hover {
-      border-color: var(--accent);
-    }
-
-    .service-card.featured {
-      border-color: var(--accent);
-      background: rgba(202, 255, 0, 0.02);
-    }
-
-    .card-badge {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: var(--accent);
-      color: #000;
-      font-family: 'Space Mono', monospace;
-      font-size: 9px;
-      font-weight: 700;
-      padding: 4px 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .on-location-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--accent);
-      color: #000;
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 6px 12px;
-      margin-bottom: 20px;
-      line-height: 1.2;
-      box-shadow: 0 0 0 1px rgba(202, 255, 0, 0.3);
-      animation: pulse-accent 2s infinite;
-      align-self: flex-start;
-    }
-
-    @keyframes pulse-accent {
-      0% { box-shadow: 0 0 0 1px rgba(202, 255, 0, 0.3); }
-      50% { box-shadow: 0 0 0 5px rgba(202, 255, 0, 0.1); }
-      100% { box-shadow: 0 0 0 1px rgba(202, 255, 0, 0.3); }
-    }
-
-    .service-icon {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 36px;
-      letter-spacing: 0.06em;
-      margin-bottom: 16px;
-      display: block;
-      color: var(--accent);
-      text-transform: uppercase;
-      font-weight: 400;
-    }
-
-    .service-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 36px;
-      color: var(--white);
-      margin-bottom: 8px;
-      letter-spacing: 0.05em;
-    }
-
-    .service-desc {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-
-    .plan-features {
-      list-style: none;
-      margin-bottom: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      border-top: 1px dashed var(--border);
-      padding-top: 20px;
-    }
-
-    .plan-features li {
-      font-size: 12px;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .plan-features li span {
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .service-price-wrap {
-      margin-top: auto;
-    }
-
-    .service-price {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 42px;
-      color: var(--accent);
-      line-height: 1;
-    }
-
-    .service-price-label {
-      font-size: 10px;
-      color: var(--muted);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-top: 4px;
-      margin-bottom: 24px;
-    }
-
-    /* PRICING TABLE */
-    #pricing {
-      background: var(--bg);
-    }
-
-    .pricing-table {
-      margin-top: 60px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .pricing-row {
-      display: grid;
-      grid-template-columns: 1fr 1.5fr 1fr;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .pricing-row:last-child {
-      border-bottom: none;
-    }
-
-    .pricing-row.header {
-      background: var(--bg3);
-    }
-
-    .pricing-cell {
-      padding: 20px 28px;
-      font-size: 13px;
-      color: var(--muted);
-      border-right: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-    }
-
-    .pricing-cell:last-child {
-      border-right: none;
-    }
-
-    .pricing-row.header .pricing-cell {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-
-    .pricing-cell.highlight {
-      color: var(--white);
-      font-weight: 600;
-    }
-
-    .pricing-cell .price-big {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      color: var(--accent);
-      display: block;
-    }
-
-    .travel-fee-note {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(202, 255, 0, 0.06);
-      border: 1px solid rgba(202, 255, 0, 0.2);
-      padding: 18px 24px;
-      margin-top: 24px;
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-      line-height: 1.5;
-    }
-
-    .travel-fee-note strong {
-      background: var(--accent);
-      color: #000;
-      padding: 2px 10px;
-      font-weight: 700;
-      margin: 0 4px;
-      display: inline-block;
-    }
-
-    /* ABOUT */
-    #about {
-      background: var(--bg2);
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-      margin-top: 60px;
-    }
-
-    .about-visual {
-      aspect-ratio: 3/4;
-      background: var(--bg3);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    .about-visual-inner {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .big-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 200px;
-      color: rgba(202, 255, 0, 0.08);
-      line-height: 1;
-      user-select: none;
-    }
-
-    .about-badge {
-      position: absolute;
-      bottom: 24px;
-      left: 24px;
-      background: var(--accent);
-      color: #000;
-      padding: 12px 20px;
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-
-    .about-text h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 52px;
-      line-height: 0.95;
-      color: var(--white);
-      margin-bottom: 24px;
-    }
-
-    .about-text p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 20px;
-    }
-
-    .about-tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 32px;
-    }
-
-    .tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      padding: 8px 16px;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    /* CONTACT / BOOKING CTA */
-    #contact {
-      background: var(--bg);
-      text-align: center;
-      padding: 120px 48px;
-    }
-
-    .contact-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(52px, 8vw, 110px);
-      line-height: 0.9;
-      color: var(--white);
-      margin-bottom: 24px;
-    }
-
-    .contact-title span {
-      color: var(--accent);
-    }
-
-    .contact-sub {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 60px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .contact-btns {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .contact-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
-      padding: 20px 40px;
-      text-decoration: none;
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
-    }
-
-    .contact-btn.whatsapp {
-      background: var(--accent);
-      color: #000;
-      border: 1px solid var(--accent);
-    }
-
-    .contact-btn.whatsapp:hover {
-      background: var(--accent2);
-      border-color: var(--accent2);
-      transform: translateY(-3px);
-    }
-
-    .contact-btn.instagram {
-      background: transparent;
-      color: var(--white);
-      border: 1px solid var(--border);
-    }
-
-    .contact-btn.instagram:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      transform: translateY(-3px);
-    }
-
-    /* SOCIAL FIXED */
-    .social-fixed {
-      position: fixed;
-      left: 24px;
-      bottom: 120px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 997;
-    }
-
-    .social-pill {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      padding: 10px 14px;
-      text-decoration: none;
-      color: var(--muted);
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: border-color 0.2s, color 0.2s, transform 0.2s;
-      overflow: hidden;
-      max-width: 48px;
-    }
-
-    .social-pill:hover {
-      max-width: 200px;
-      border-color: var(--accent);
-      color: var(--accent);
-      transform: none;
-    }
-
-    .social-icon {
-      font-size: 16px;
-      flex-shrink: 0;
-    }
-
-    .social-text {
-      white-space: nowrap;
-      opacity: 0;
-      transition: opacity 0.2s 0.1s;
-    }
-
-    .social-pill:hover .social-text {
-      opacity: 1;
-    }
-
-    /* FOOTER */
-    footer {
-      background: #050505;
-      border-top: 1px solid var(--border);
-      padding: 40px 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
-      letter-spacing: 0.2em;
-      color: var(--white);
-    }
-
-    .footer-logo span {
-      color: var(--accent);
-    }
-
-    .footer-text {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 20px;
-    }
-
-    .footer-links a {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover {
-      color: var(--accent);
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 1024px) {
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 900px) {
-      nav {
-        padding: 16px 24px;
-        flex-wrap: wrap;
-      }
-      nav ul {
-        gap: 16px;
-        flex-wrap: wrap;
-        margin-top: 8px;
-      }
-      .hero {
-        padding: 0 24px 60px;
-      }
-      section {
-        padding: 60px 24px;
-      }
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-      .pricing-row {
-        grid-template-columns: 1fr;
-      }
-      .pricing-cell {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-      .pricing-cell:last-child {
-        border-bottom: none;
-      }
-      footer {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
-      }
-      .social-fixed {
-        display: none;
-      }
-      .theme-toggle {
-        top: 30%;
-      }
-      .yt-btn {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .hero-title {
-        font-size: 64px;
-      }
-      .hero-stats {
-        flex-direction: column;
-        gap: 20px;
-      }
-      .service-card {
-        padding: 32px 24px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROD BY LEHMANN — Beat Store · Trap · Trapsoul · RNB</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--accent:#caff00;--accent2:#a8d600;--text:#f0f0f0;--muted:#777;--border:#242424}
+.theme-red{--accent:#ff2d55;--accent2:#cc1a3f}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif;overflow-x:hidden;padding-bottom:84px}
+a{color:inherit}
+.bb{font-family:'Manrope',sans-serif}.mono{font-family:'IBM Plex Mono',monospace}
+.btn{background:var(--accent);color:#000;border:0;padding:14px 26px;font:700 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:.2s}
+.btn:hover{background:var(--accent2);transform:translateY(-2px)}
+.btn.o{background:transparent;color:#fff;border:1px solid var(--border)}.btn.o:hover{border-color:var(--accent);color:var(--accent)}
+.btn.sm{padding:9px 14px;font-size:10px}.btn.d{background:#2a0a0a;color:#ff5c5c}
+/* THEME */
+.tt{position:fixed;top:50%;right:0;z-index:1000;display:flex;flex-direction:column;gap:6px;transform:translateY(-50%)}
+.tt button{width:10px;height:40px;border:0;cursor:pointer}
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:900;display:flex;justify-content:space-between;align-items:center;padding:18px 40px;background:linear-gradient(180deg,rgba(10,10,10,.95),transparent)}
+.logo{font:22px 'Manrope';letter-spacing:.15em;text-decoration:none}.logo span,.acc{color:var(--accent)}
+nav ul{list-style:none;display:flex;gap:28px;align-items:center}
+nav ul a{color:#aaa;text-decoration:none;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500}
+nav ul a:hover{color:var(--accent)}
+nav ul a.nb{background:var(--accent);color:#000;padding:10px 18px;font-weight:700}
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:flex-end;padding:0 40px 70px;position:relative;overflow:hidden}
+.slides,.slide,.ov{position:absolute;inset:0}
+.slide{background-size:cover;background-position:center;opacity:0;transition:opacity 1.6s;filter:grayscale(90%) brightness(.5)}
+.slide.on{opacity:.38}
+.ov{background:linear-gradient(180deg,rgba(10,10,10,.6),rgba(10,10,10,.15) 40%,#0a0a0a 100%),linear-gradient(90deg,rgba(10,10,10,.85),transparent 65%)}
+.hc{position:relative;z-index:2;max-width:920px}
+.eb{font:11px 'IBM Plex Mono';color:var(--accent);letter-spacing:.3em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.eb:before{content:'';width:40px;height:1px;background:var(--accent)}
+.ht{font:clamp(70px,11vw,150px)/.88 'Manrope';color:#fff}
+.hs{font:clamp(24px,3.5vw,44px) 'Manrope';color:var(--muted);letter-spacing:.08em;margin:8px 0 36px}
+.stats{display:flex;gap:44px;margin-bottom:40px;flex-wrap:wrap}
+.stat{border-left:2px solid var(--accent);padding-left:14px}.stat b{font:36px/1 'Manrope';color:var(--accent);display:block}
+.stat small{font-size:10px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase}
+.ctas{display:flex;gap:14px;flex-wrap:wrap}
+.tick{background:var(--accent);padding:13px 0;overflow:hidden;white-space:nowrap}
+.tick div{display:inline-flex;animation:tk 22s linear infinite}
+.tick span{font:14px 'Manrope';letter-spacing:.2em;color:#000;padding:0 30px}
+@keyframes tk{to{transform:translateX(-50%)}}
+section{padding:90px 40px}
+.sl{font:10px 'IBM Plex Mono';color:var(--accent);letter-spacing:.3em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.sl:after{content:'';flex:1;height:1px;background:var(--border)}
+.st{font:clamp(42px,6vw,76px)/.95 'Manrope';margin-bottom:28px}
+/* STORE */
+#store{background:var(--bg)}
+.bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.bar input,.bar select,.fm input,.fm select,.fm textarea,.lg input{background:var(--bg2);border:1px solid var(--border);color:#fff;padding:13px 16px;font:13px Inter;outline:0}
+.bar input{flex:1;min-width:220px}.bar input:focus,.fm *:focus,.lg input:focus{border-color:var(--accent)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.chip{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;font:10px 'IBM Plex Mono';letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.chip.on,.chip:hover{background:var(--accent);color:#000;border-color:var(--accent)}
+.beat{display:grid;grid-template-columns:72px 1fr auto;gap:18px;align-items:center;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);margin-bottom:10px;transition:.2s}
+.beat:hover,.beat.pl{border-color:var(--accent);background:#141414}
+.cv{width:72px;height:72px;background:var(--bg3) center/cover;position:relative;cursor:pointer}
+.cv:after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:.2s}
+.cv:before{content:'';position:absolute;z-index:1;left:50%;top:50%;width:20px;height:22px;transform:translate(-38%,-50%);background:var(--accent);clip-path:polygon(0 0,100% 50%,0 100%);opacity:0;transition:.2s}
+.beat:hover .cv:after,.beat.pl .cv:after,.beat:hover .cv:before,.beat.pl .cv:before{opacity:1}
+.beat.pl .cv:before{width:18px;height:22px;transform:translate(-50%,-50%);background:none;clip-path:none;border-left:6px solid var(--accent);border-right:6px solid var(--accent)}
+.bt{font:26px 'Manrope';letter-spacing:.04em;line-height:1.1}
+.bt em{font:700 9px 'IBM Plex Mono';background:var(--accent);color:#000;padding:2px 7px;margin-left:8px;font-style:normal;vertical-align:middle;letter-spacing:.1em}
+.bt em.sold{background:#ff3b3b;color:#fff}
+.tg{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.tg i{font:10px 'IBM Plex Mono';font-style:normal;border:1px solid var(--border);color:var(--muted);padding:3px 9px;text-transform:uppercase}
+.tg i.k{color:var(--accent);border-color:rgba(202,255,0,.3)}
+.pr{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono';margin-right:16px;text-align:right}
+.empty{text-align:center;color:var(--muted);padding:60px;border:1px dashed var(--border);font-family:'IBM Plex Mono';font-size:12px}
+/* PLANS */
+#plans{background:var(--bg2)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:var(--bg);border:1px solid var(--border);padding:34px 28px;display:flex;flex-direction:column;position:relative}
+.card.f{border-color:var(--accent)}.card .bdg{position:absolute;top:14px;right:14px;background:var(--accent);color:#000;font:700 9px 'IBM Plex Mono';padding:4px 9px}
+.card h3{font:34px 'Manrope';letter-spacing:.05em}.card p{font-size:13px;color:var(--muted);line-height:1.6;margin:8px 0 18px}
+.card ul{list-style:none;border-top:1px dashed var(--border);padding-top:16px;margin-bottom:22px;display:grid;gap:10px;font-size:12px}
+.card li{display:flex;align-items:center;gap:10px}.card li:before{content:'';width:5px;height:9px;border:solid var(--accent);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px);flex-shrink:0}
+.card .p{font:40px/1 'Manrope';color:var(--accent);margin-top:auto}.card small{display:block;font:10px 'IBM Plex Mono';color:var(--muted);margin:4px 0 18px;letter-spacing:.1em}
+.fee{margin-top:22px;border:1px solid rgba(202,255,0,.25);background:rgba(202,255,0,.05);padding:16px 22px;font:12px 'IBM Plex Mono';color:var(--accent)}
+#contact{text-align:center;padding:110px 40px}.ct{font:clamp(52px,8vw,110px)/.9 'Manrope'}
+footer{background:#050505;border-top:1px solid var(--border);padding:32px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font:10px 'IBM Plex Mono';color:var(--muted)}
+footer a{text-decoration:none;margin-left:16px}footer a:hover{color:var(--accent)}
+/* PLAYER */
+#pbar{position:fixed;bottom:0;left:0;right:0;z-index:950;background:rgba(10,10,10,.97);border-top:1px solid var(--accent);display:none;align-items:center;gap:18px;padding:12px 28px;backdrop-filter:blur(10px)}
+#pbar .pc{width:48px;height:48px;background:var(--bg3) center/cover}
+#pbar .pi{min-width:150px}#pbar .pi b{font:20px 'Manrope';display:block}#pbar .pi small{font:10px 'IBM Plex Mono';color:var(--muted)}
+#pbtn{width:44px;height:44px;border-radius:50%;border:0;background:var(--accent);cursor:pointer;font-size:14px}
+.prog{flex:1;height:5px;background:var(--border);cursor:pointer;position:relative}.prog div{height:100%;width:0;background:var(--accent)}
+#pt{font:10px 'IBM Plex Mono';color:var(--muted);min-width:80px;text-align:right}
+/* MODAL */
+.md{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}.md.on{display:flex}
+.mb{background:var(--bg2);border:1px solid var(--accent);max-width:520px;width:100%;padding:32px;max-height:92vh;overflow:auto}
+.mb h3{font:38px 'Manrope'}.lic{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);padding:16px 18px;margin:12px 0;cursor:pointer}
+.lic.on,.lic:hover{border-color:var(--accent);background:rgba(202,255,0,.05)}.lic b{font:26px 'Manrope';color:var(--accent)}.lic small{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+/* ADMIN */
+#admin{display:none;padding:110px 40px 60px;min-height:100vh;background:var(--bg2)}
+.lg{max-width:380px;margin:60px auto;display:grid;gap:12px}.lg input{width:100%}
+.fm{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;background:var(--bg);border:1px solid var(--border);padding:24px;margin-bottom:28px}
+.fm label{font:10px 'IBM Plex Mono';color:var(--muted);letter-spacing:.12em;text-transform:uppercase;display:grid;gap:6px}
+.fm .w2{grid-column:span 2}.fm .w4{grid-column:span 4}.fm input,.fm select,.fm textarea{width:100%}
+.fm .ck{display:flex;align-items:center;gap:8px;align-self:end;padding-bottom:12px}.fm .ck input{width:auto}
+.ar{display:grid;grid-template-columns:48px 1fr auto auto;gap:14px;align-items:center;padding:10px 14px;background:var(--bg);border:1px solid var(--border);margin-bottom:8px;font-size:13px}
+.ar .cv{width:48px;height:48px;cursor:default}.ar .cv:after,.ar .cv:before{display:none}
+#toast{position:fixed;top:80px;right:20px;background:var(--accent);color:#000;font:700 12px 'IBM Plex Mono';padding:12px 20px;z-index:3000;display:none}
+@media(max-width:1000px){.grid{grid-template-columns:1fr}.fm{grid-template-columns:1fr 1fr}.fm .w4{grid-column:span 2}}
+@media(max-width:700px){nav{padding:14px 18px}nav ul li:not(:last-child){display:none}section,#admin{padding:70px 18px}.hero{padding:0 18px 50px}.beat{grid-template-columns:60px 1fr;}.beat .act{grid-column:span 2}.cv{width:60px;height:60px}.pr{display:none}#pbar{gap:10px;padding:10px 14px}#pbar .pi{min-width:0;flex:1}.prog,#pt{display:none}.fm{grid-template-columns:1fr}.fm .w2,.fm .w4{grid-column:auto}.ar{grid-template-columns:48px 1fr}}
+
+/* ===== pro typography / icons / backgrounds ===== */
+.ic{width:1.1em;height:1.1em;display:inline-block;vertical-align:-.18em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px}
+.logo,.ht,.hs,.st,.ct,.bt,.card h3,.card .p,.stat b,.mb h3,.lic b,#pbar .pi b,.tick span{font-family:'Manrope',sans-serif;font-weight:800}
+.ht{font-size:clamp(46px,8vw,116px);line-height:.95;letter-spacing:-.035em}
+.hs{font-size:clamp(13px,1.5vw,18px);font-weight:600;letter-spacing:.3em;text-transform:uppercase}
+.st{font-size:clamp(30px,4.4vw,56px);letter-spacing:-.03em;line-height:1.02}
+.ct{font-size:clamp(42px,7vw,92px);letter-spacing:-.04em;line-height:.95}
+.logo{font-size:16px;letter-spacing:.14em}
+.bt{font-size:18px;letter-spacing:-.01em;font-weight:700}
+.stat b{font-size:30px;letter-spacing:-.02em}
+.card h3{font-size:21px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.card .p{font-size:32px;letter-spacing:-.02em}
+.mb h3{font-size:28px;letter-spacing:-.02em}.lic b{font-size:19px}
+#pbar .pi b{font-size:15px;font-weight:700}.tick span{font-size:12px;letter-spacing:.18em}
+.tick span .ic{margin-right:8px;vertical-align:-.2em}
+#pbtn{display:flex;align-items:center;justify-content:center;color:#000}#pbtn .ic{width:18px;height:18px}
+.slide{filter:grayscale(40%) contrast(1.1) brightness(.85)}.slide.on{opacity:.75}
+.ov{background:linear-gradient(180deg,rgba(10,10,10,.55),rgba(10,10,10,.05) 40%,#0a0a0a 100%),linear-gradient(90deg,rgba(10,10,10,.78),transparent 62%)}
+.grain{position:absolute;inset:0;z-index:1;opacity:.06;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#store{background:linear-gradient(rgba(10,10,10,.86),rgba(10,10,10,.94)),url(https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1600&q=80) center/cover fixed}
+#plans{background:linear-gradient(rgba(14,14,14,.84),rgba(14,14,14,.94)),url(https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1600&q=80) center/cover fixed}
+#contact{background:linear-gradient(rgba(10,10,10,.72),rgba(10,10,10,.92)),url(https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1600&q=80) center/cover fixed}
+.rail{position:fixed;left:18px;bottom:110px;display:flex;flex-direction:column;gap:10px;z-index:800}
+.rail a{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:rgba(17,17,17,.92);border:1px solid var(--border);color:#bbb;transition:.2s}
+.rail a:hover{border-color:var(--accent);color:var(--accent);transform:translateX(3px)}.rail .ic{width:19px;height:19px}
+@media(max-width:900px){.rail{display:none}}
+</style>
 </head>
 <body>
-  <!-- THEME TOGGLE -->
-  <div class="theme-toggle">
-    <button class="btn-green" onclick="document.body.classList.remove('theme-red')" title="Green theme"></button>
-    <button class="btn-red" onclick="document.body.classList.add('theme-red')" title="Red theme"></button>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".9" fill="currentColor"/></symbol>
+<symbol id="i-yt" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></symbol>
+<symbol id="i-wa" viewBox="0 0 24 24"><path d="M3 21l1.6-4.8A9 9 0 1 1 8 19.6L3 21z"/><path d="M9 8c0 3.6 3.4 7 7 7l1-1.6-2.2-1-1 .9c-1-.4-2-1.400-2.400-2.400l.9-1L10.200 7.800z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.500"/><circle cx="18" cy="20" r="1.500"/><path d="M2 3h3l2.500 12h11l2-8H6"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.500 7-12a7 7 0 0 0-14 0c0 5.500 7 12 7 12z"/><circle cx="12" cy="10" r="2.500"/></symbol>
+<symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.500V16c0 1.500 3 3 6 3s6-1.500 6-3v-4.500"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></symbol>
+<symbol id="i-keys" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M7 5v8M12 5v14M17 5v8"/></symbol>
+<symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.500"/></symbol>
+<symbol id="i-crown" viewBox="0 0 24 24"><path d="M3 18l-1-10 5 4 5-8 5 8 5-4-1 10z"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor" stroke="none"/></symbol>
+</defs></svg>
+<div class="tt"><button style="background:#caff00" onclick="document.body.classList.remove('theme-red')"></button><button style="background:#ff2d55" onclick="document.body.classList.add('theme-red')"></button></div>
+<div id="toast"></div>
+
+<nav>
+  <a href="#" class="logo">PROD BY <span>LEHMANN</span></a>
+  <ul><li><a href="#store">Beats</a></li><li><a href="#plans">Studio</a></li><li><a href="#contact">Contact</a></li><li><a href="#contact" class="nb">BOOK NOW</a></li></ul>
+</nav>
+
+<div id="site">
+<div class="rail"><a href="https://instagram.com/prodbylehmann" target="_blank" aria-label="Instagram"><svg class="ic "><use href="#i-ig"/></svg></a><a href="https://youtube.com/@prodbylehmann" target="_blank" aria-label="YouTube"><svg class="ic "><use href="#i-yt"/></svg></a><a id="waRail" target="_blank" aria-label="WhatsApp"><svg class="ic "><use href="#i-wa"/></svg></a></div>
+<header class="hero">
+  <div class="slides" id="slides"></div><div class="ov"></div><div class="grain"></div>
+  <div class="hc">
+    <div class="eb">TRAP · TRAPSOUL · RNB</div>
+    <h1 class="ht">PROD BY <span class="acc">LEHMANN</span></h1>
+    <p class="hs">BEATS THAT HIT DIFFERENT</p>
+    <div class="stats">
+      <div class="stat"><b id="sBeats">200+</b><small>Beats</small></div>
+      <div class="stat"><b id="sPlays">—</b><small>Total Plays</small></div>
+      <div class="stat"><b>50+</b><small>Artists</small></div>
+      <div class="stat"><b>5.0</b><small>Client Rating</small></div>
+    </div>
+    <div class="ctas"><a href="#store" class="btn">BROWSE BEATS →</a><a href="#plans" class="btn o">STUDIO PLANS</a></div>
   </div>
+</header>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="logo">PROD BY <span>LEHMANN</span></a>
-    <ul>
-      <li><a href="#beats">BEATS</a></li>
-      <li><a href="#plans">PLANS</a></li>
-      <li><a href="#pricing">RATES</a></li>
-      <li><a href="#about">ABOUT</a></li>
-      <li><a href="#contact" class="nav-book">BOOK NOW</a></li>
-    </ul>
-  </nav>
+<div class="tick"><div>
+  <span><svg class="ic "><use href="#i-cap"/></svg>COMRADE PLAN FROM 600 KES</span><span><svg class="ic "><use href="#i-disc"/></svg>LEASE 2,000 KES</span><span><svg class="ic "><use href="#i-crown"/></svg>EXCLUSIVE 8,000 KES</span><span><svg class="ic "><use href="#i-pin"/></svg>ON-LOCATION +1,000 KES</span>
+  <span><svg class="ic "><use href="#i-cap"/></svg>COMRADE PLAN FROM 600 KES</span><span><svg class="ic "><use href="#i-disc"/></svg>LEASE 2,000 KES</span><span><svg class="ic "><use href="#i-crown"/></svg>EXCLUSIVE 8,000 KES</span><span><svg class="ic "><use href="#i-pin"/></svg>ON-LOCATION +1,000 KES</span>
+</div></div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg">
-      <div class="hero-slides" id="heroSlides"></div>
-      <div class="hero-overlay"></div>
-      <div class="grain"></div>
-    </div>
-    <div class="hero-content">
-      <div class="hero-eyebrow">TRAP · TRAPSOUL · RNB</div>
-      <h1 class="hero-title">PROD BY <span class="accent">LEHMANN</span></h1>
-      <p class="hero-sub">BEATS THAT HIT DIFFERENT</p>
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="stat-num">200+</div>
-          <div class="stat-label">Beats Sold</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">50+</div>
-          <div class="stat-label">Artists Worked With</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">5★</div>
-          <div class="stat-label">Client Rating</div>
-        </div>
-      </div>
-      <div class="hero-ctas">
-        <a href="#beats" class="btn-primary">LISTEN TO BEATS →</a>
-        <a href="#plans" class="btn-outline">VIEW PLANS</a>
-      </div>
-    </div>
-    <div class="hero-arrow">
-      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M40 160 L160 40 M160 40 L160 120 M160 40 L80 40" stroke="white" stroke-width="2"/>
-      </svg>
-    </div>
-  </section>
-
-  <!-- TICKER -->
-  <div class="ticker">
-    <div class="ticker-inner">
-      <span class="ticker-item">🔥 COMRADE PLAN FROM 600 KES</span>
-      <span class="ticker-item">🎧 LICENSED BEATS 2000 KES</span>
-      <span class="ticker-item">💼 EXCLUSIVE RIGHTS 8000 KES</span>
-      <span class="ticker-item">📍 ON-LOCATION SESSIONS +1000 KES</span>
-      <span class="ticker-item">🔥 COMRADE PLAN FROM 600 KES</span>
-      <span class="ticker-item">🎧 LICENSED BEATS 2000 KES</span>
-      <span class="ticker-item">💼 EXCLUSIVE RIGHTS 8000 KES</span>
-      <span class="ticker-item">📍 ON-LOCATION SESSIONS +1000 KES</span>
-    </div>
+<section id="store">
+  <div class="sl">01 / BEAT STORE</div>
+  <h2 class="st">LATEST BEATS</h2>
+  <div class="bar">
+    <input id="q" placeholder="Search title, key, BPM, mood, tag…">
+    <select id="keyF"><option value="">All Keys</option></select>
+    <select id="sort"><option value="new">Newest</option><option value="pop">Most Played</option><option value="lo">Price: Low → High</option><option value="hi">Price: High → Low</option></select>
   </div>
+  <div class="chips" id="chips"></div>
+  <div id="list"><div class="empty">LOADING BEATS…</div></div>
+  <div style="margin-top:26px"><a class="btn o" target="_blank" href="https://youtube.com/@prodbylehmann"><svg class="ic "><use href="#i-yt"/></svg> MORE ON YOUTUBE</a></div>
+</section>
 
-  <!-- BEATS SECTION -->
-  <section id="beats">
-    <div class="section-label">01 / CATALOG</div>
-    <h2 class="section-title">BEAT CATALOG</h2>
-    <div class="yt-cta-wrap" style="margin-top:40px;">
-      <a href="https://youtube.com/@prodbylehmann" target="_blank" class="yt-btn">
-        <div class="yt-btn-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M23.5 6.2c-.3-1.2-1.2-2.1-2.4-2.4C18.9 3.2 12 3.2 12 3.2s-6.9 0-9.1.6C1.7 4.1.8 5 .5 6.2 0 8.4 0 12 0 12s0 3.6.5 5.8c.3 1.2 1.2 2.1 2.4 2.4 2.2.6 9.1.6 9.1.6s6.9 0 9.1-.6c1.2-.3 2.1-1.2 2.4-2.4.5-2.2.5-5.8.5-5.8s0-3.6-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/>
-          </svg>
-        </div>
-        <div class="yt-btn-label">
-          <div class="yt-btn-top">LISTEN ON YOUTUBE</div>
-          <div class="yt-btn-sub">200+ BEATS · NEW UPLOADS WEEKLY</div>
-        </div>
-        <div class="yt-btn-arrow">↗</div>
-      </a>
-      <div class="yt-meta">
-        <div class="yt-meta-item"><span class="yt-meta-icon">🎵</span> Trap / Trapsoul / RNB</div>
-        <div class="yt-meta-item"><span class="yt-meta-icon">⚡</span> Instant Delivery</div>
-        <div class="yt-meta-item"><span class="yt-meta-icon">📄</span> Lease & Exclusive Rights</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3 MAIN PLANS SECTION -->
-  <section id="plans">
-    <div class="section-label">02 / PACKAGES</div>
-    <h2 class="section-title">CHOOSE YOUR PLAN</h2>
-
-    <div class="services-grid">
-      <!-- PLAN 1: COMRADE PLAN -->
-      <div class="service-card">
-        <div>
-          <div class="on-location-badge">📍 ON-LOCATION? +1000 KES</div>
-          <div class="service-icon">🎓 PLAN 01</div>
-          <h3 class="service-name">COMRADE PLAN</h3>
-          <p class="service-desc">Budget-friendly, high-quality recording package designed specifically for student and independent artists working on a budget.</p>
-          <ul class="plan-features">
-            <li><span>✓</span> 600 KES per Single Track</li>
-            <li><span>✓</span> 800 KES Bundle Deal (2 Tracks)</li>
-            <li><span>✓</span> Vocal Recording Included</li>
-            <li><span>✓</span> Mixing & Mastering Included</li>
-          </ul>
-        </div>
-        <div class="service-price-wrap">
-          <div class="service-price">600 KES</div>
-          <div class="service-price-label">STARTING AT · 800 KES FOR 2 TRACKS</div>
-          <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px; width:100%; justify-content:center;">SELECT COMRADE PLAN →</a>
-        </div>
-      </div>
-
-      <!-- PLAN 2: PRO PLAN -->
-      <div class="service-card featured">
-        <div class="card-badge">MOST POPULAR</div>
-        <div>
-          <div class="on-location-badge">📍 ON-LOCATION? +1000 KES</div>
-          <div class="service-icon">🎙️ PLAN 02</div>
-          <h3 class="service-name">PRO PLAN</h3>
-          <p class="service-desc">Full professional treatment for serious artists looking to craft radio-ready singles or a complete EP project with special bonuses.</p>
-          <ul class="plan-features">
-            <li><span>✓</span> 3,000 KES per Single Track</li>
-            <li><span>✓</span> 6,000 KES EP Special (3 Tracks)</li>
-            <li><span>★</span> BONUS: +1 Extra Track Free Offer</li>
-            <li><span>✓</span> Pro Mixing & Mastering Included</li>
-          </ul>
-        </div>
-        <div class="service-price-wrap">
-          <div class="service-price">3,000 KES</div>
-          <div class="service-price-label">STARTING AT · 6,000 KES FOR 3+1 TRACKS</div>
-          <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px; width:100%; justify-content:center;">SELECT PRO PLAN →</a>
-        </div>
-      </div>
-
-      <!-- PLAN 3: BEAT PURCHASE -->
-      <div class="service-card">
-        <div>
-          <div class="service-icon">🎹 PLAN 03</div>
-          <h3 class="service-name">BEAT PURCHASES</h3>
-          <p class="service-desc">Ready-to-use production from the catalog. Choose between flexible commercial licensing or full exclusive ownership with stems.</p>
-          <ul class="plan-features">
-            <li><span>✓</span> 2,000 KES Licensed Beat + WAV File</li>
-            <li><span>✓</span> Commercial Streaming Rights</li>
-            <li><span>✓</span> 8,000 KES Exclusive Ownership</li>
-            <li><span>✓</span> Full Trackouts / Stems Included</li>
-          </ul>
-        </div>
-        <div class="service-price-wrap">
-          <div class="service-price">2,000 KES</div>
-          <div class="service-price-label">LICENSED · 8,000 KES FOR EXCLUSIVE</div>
-          <a href="#contact" class="btn-primary" style="font-size:11px; padding:12px 24px; width:100%; justify-content:center;">PURCHASE BEATS →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRICING BREAKDOWN TABLE -->
-  <section id="pricing">
-    <div class="section-label">03 / PRICING</div>
-    <h2 class="section-title">DETAILED RATES</h2>
-
-    <div class="pricing-table">
-      <div class="pricing-row header">
-        <div class="pricing-cell">PLAN / SERVICE</div>
-        <div class="pricing-cell">PACKAGE INCLUSIONS</div>
-        <div class="pricing-cell">PRICE</div>
-      </div>
-      <div class="pricing-row">
-        <div class="pricing-cell highlight">Comrade Single Track</div>
-        <div class="pricing-cell">1 Track recording session + mixing & mastering</div>
-        <div class="pricing-cell"><span class="price-big">600 KES</span></div>
-      </div>
-      <div class="pricing-row">
-        <div class="pricing-cell highlight">Comrade 2-Track Special</div>
-        <div class="pricing-cell">2 Tracks recording session + mixing & mastering</div>
-        <div class="pricing-cell"><span class="price-big">800 KES</span></div>
-      </div>
-      <div class="pricing-row">
-        <div class="pricing-cell highlight">Pro Single Track</div>
-        <div class="pricing-cell">Pro recording + full radio mix & master</div>
-        <div class="pricing-cell"><span class="price-big">3,000 KES</span></div>
-      </div>
-      <div class="pricing-row">
-        <div class="pricing-cell highlight">Pro EP Offer (3+1)</div>
-        <div class="pricing-cell">3 Tracks + 1 Bonus Track Free offer + mix & master</div>
-        <div class="pricing-cell"><span class="price-big">6,000 KES</span></div>
-      </div>
-      <div class="pricing-row">
-        <div class="pricing-cell highlight">Licensed Beat Lease</div>
-        <div class="pricing-cell">High Quality WAV File + Commercial Distribution Rights</div>
-        <div class="pricing-cell"><span class="price-big">2,000 KES</span></div>
-      </div>
-      <div class="pricing-row">
-        <div class="pricing-cell highlight">Exclusive Beat Rights</div>
-        <div class="pricing-cell">100% Exclusive Ownership + Trackout Stems + Master File</div>
-        <div class="pricing-cell"><span class="price-big">8,000 KES</span></div>
-      </div>
-    </div>
-
-    <!-- ON-LOCATION FEE NOTICE -->
-    <div class="travel-fee-note">
-      <span style="font-size: 20px;">📍</span>
-      <div>
-        <strong>ON-LOCATION SESSIONS</strong> — Want me to bring the recording setup to your place? Add <strong>+1,000 KES</strong> to any Comrade or Pro recording session.
-      </div>
-    </div>
-
-    <!-- EXTRA CTA -->
-    <div style="margin-top:40px; display:flex; gap:16px; flex-wrap:wrap;">
-      <a href="#contact" class="btn-primary" style="padding:14px 28px;">BOOK A SESSION NOW →</a>
-      <a href="#beats" class="btn-outline" style="padding:14px 28px;">LISTEN TO BEATS</a>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-label">04 / ABOUT</div>
-    <div class="about-grid">
-      <div class="about-visual">
-        <div class="about-visual-inner">
-          <div class="big-logo">L</div>
-        </div>
-        <div class="about-badge">EST. 2019</div>
-      </div>
-      <div class="about-text">
-        <h2>SOUND THAT<br>SPEAKS LOUDER</h2>
-        <p>I'm Lehmann — a music producer and engineer based in Nairobi. I've been crafting beats in the Trap, Trapsoul, and RNB space for over 5 years, working with artists who want their sound to stand out.</p>
-        <p>From dark, atmospheric trapsoul to hard-hitting street anthems — my catalog is built on heavy 808s, emotional melodies, and clean, professional mixes. Whether you need a quick Comrade studio session or exclusive production rights, I've got you covered.</p>
-        <p>Let's make something that hits different.</p>
-        <div class="about-tags">
-          <span class="tag">TRAP</span>
-          <span class="tag">TRAPSOUL</span>
-          <span class="tag">RNB</span>
-          <span class="tag">MIXING</span>
-          <span class="tag">MASTERING</span>
-          <span class="tag">PRODUCTION</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT / BOOKING -->
-  <section id="contact">
-    <div class="section-label" style="justify-content:center;">05 / CONTACT</div>
-    <h2 class="contact-title">LET'S <span>WORK</span></h2>
-    <p class="contact-sub">Ready to book a plan or buy a beat? Pick your plan and hit me up on WhatsApp or Instagram.</p>
-
-    <div class="contact-btns">
-      <a href="https://wa.me/254700000000" target="_blank" class="contact-btn whatsapp">
-        <span style="font-size:18px;">💬</span> WHATSAPP
-      </a>
-      <a href="https://instagram.com/prodbylehmann" target="_blank" class="contact-btn instagram">
-        <span style="font-size:18px;">📸</span> INSTAGRAM
-      </a>
-    </div>
-
-    <div style="margin-top: 40px; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;">
-      📍 On-location sessions add <span style="color: var(--accent); font-weight: 700;">+1,000 KES</span>
-    </div>
-  </section>
-
-  <!-- SOCIAL FIXED -->
-  <div class="social-fixed">
-    <a href="https://instagram.com/prodbylehmann" target="_blank" class="social-pill">
-      <span class="social-icon">📸</span>
-      <span class="social-text">INSTAGRAM</span>
-    </a>
-    <a href="https://youtube.com/@prodbylehmann" target="_blank" class="social-pill">
-      <span class="social-icon">▶️</span>
-      <span class="social-text">YOUTUBE</span>
-    </a>
-    <a href="https://wa.me/254700000000" target="_blank" class="social-pill">
-      <span class="social-icon">💬</span>
-      <span class="social-text">WHATSAPP</span>
-    </a>
+<section id="plans">
+  <div class="sl">02 / STUDIO</div>
+  <h2 class="st">RECORDING PLANS</h2>
+  <div class="grid">
+    <div class="card"><h3><svg class="ic acc"><use href="#i-cap"/></svg> COMRADE PLAN</h3><p>Budget-friendly, quality recording for student &amp; independent artists.</p>
+      <ul><li>600 KES per single</li><li>800 KES for 2 tracks</li><li>Vocal recording</li><li>Mixing &amp; mastering</li></ul>
+      <div class="p">600 KES</div><small>STARTING AT</small><a class="btn" href="#contact">SELECT →</a></div>
+    <div class="card f"><span class="bdg">MOST POPULAR</span><h3><svg class="ic acc"><use href="#i-mic"/></svg> PRO PLAN</h3><p>Full professional treatment for radio-ready singles or a complete EP.</p>
+      <ul><li>3,000 KES per single</li><li>6,000 KES EP (3 tracks)</li><li>+1 bonus track free</li><li>Pro mix &amp; master</li></ul>
+      <div class="p">3,000 KES</div><small>STARTING AT</small><a class="btn" href="#contact">SELECT →</a></div>
+    <div class="card"><h3><svg class="ic acc"><use href="#i-keys"/></svg> BUY BEATS</h3><p>Pick any beat above — lease it or own it exclusively with stems.</p>
+      <ul><li>2,000 KES lease + WAV</li><li>Commercial streaming rights</li><li>8,000 KES exclusive</li><li>Full trackouts / stems</li></ul>
+      <div class="p">2,000 KES</div><small>LEASE · 8,000 EXCLUSIVE</small><a class="btn" href="#store">BROWSE BEATS →</a></div>
   </div>
+  <div class="fee"><svg class="ic "><use href="#i-pin"/></svg> <b>ON-LOCATION SESSIONS</b> — I bring the setup to you. Add <b>+1,000 KES</b> to any Comrade or Pro session.</div>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-logo">PROD BY <span>LEHMANN</span></div>
-    <div class="footer-text">© 2025 PROD BY LEHMANN. ALL RIGHTS RESERVED.</div>
-    <div class="footer-links">
-      <a href="#beats">BEATS</a>
-      <a href="#plans">PLANS</a>
-      <a href="#pricing">RATES</a>
-      <a href="#contact">BOOK</a>
+<section id="contact">
+  <div class="sl" style="justify-content:center">03 / CONTACT</div>
+  <h2 class="ct">LET'S <span class="acc">WORK</span></h2>
+  <p style="color:var(--muted);font-size:14px;margin:20px auto 40px;max-width:480px">Ready to book a session or buy a beat? Hit me up on WhatsApp or Instagram.</p>
+  <div class="ctas" style="justify-content:center"><a class="btn" id="waMain" target="_blank"><svg class="ic "><use href="#i-wa"/></svg> WHATSAPP</a><a class="btn o" target="_blank" href="https://instagram.com/prodbylehmann"><svg class="ic "><use href="#i-ig"/></svg> INSTAGRAM</a></div>
+</section>
+
+<footer><div>© 2026 PROD BY LEHMANN. ALL RIGHTS RESERVED.</div><div><a href="#store">BEATS</a><a href="#plans">STUDIO</a><a href="#contact">BOOK</a><a href="#admin">ADMIN</a></div></footer>
+</div>
+
+<!-- ADMIN -->
+<div id="admin">
+  <div id="loginBox" class="lg"><h2 class="st" style="margin:0">ADMIN LOGIN</h2>
+    <input id="aEmail" type="email" placeholder="Email"><input id="aPass" type="password" placeholder="Password">
+    <button class="btn" onclick="login()">SIGN IN →</button><a href="#" class="btn o" style="text-align:center">← BACK TO SITE</a></div>
+  <div id="panel" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><h2 class="st" style="margin:0">BEAT MANAGER</h2>
+      <div><a href="#" class="btn o sm">VIEW SITE</a> <button class="btn d sm" onclick="logout()">LOG OUT</button></div></div>
+    <p class="mono" id="adminInfo" style="font-size:11px;color:var(--muted);margin:10px 0 24px"></p>
+    <div class="fm" id="fm">
+      <input type="hidden" id="f_id">
+      <label class="w2">Title<input id="f_title"></label>
+      <label>Artist / Producer<input id="f_artist" value="Prod by Lehmann"></label>
+      <label>Genre<select id="f_genre"><option>Trap</option><option>Trapsoul</option><option>RNB</option><option>Drill</option><option>Afrobeat</option><option>Hip Hop</option><option>Other</option></select></label>
+      <label>BPM<input id="f_bpm" type="number"></label>
+      <label>Key<input id="f_key" placeholder="F# Minor"></label>
+      <label>Mood<input id="f_mood" placeholder="Dark, Emotional"></label>
+      <label>Tags (comma separated)<input id="f_tags" placeholder="808, melodic, sad"></label>
+      <label>Lease Price (KES)<input id="f_lease" type="number" value="2000"></label>
+      <label>Exclusive Price (KES)<input id="f_excl" type="number" value="8000"></label>
+      <label>Status<select id="f_status"><option value="published">Published</option><option value="draft">Draft (hidden)</option><option value="sold">Sold out</option></select></label>
+      <label class="ck"><input type="checkbox" id="f_feat"> Featured</label>
+      <label class="w2">Cover image<input id="f_coverFile" type="file" accept="image/*"></label>
+      <label class="w2">Audio preview (mp3 / wav)<input id="f_audioFile" type="file" accept="audio/*"></label>
+      <label class="w2">Cover URL (auto-filled)<input id="f_cover"></label>
+      <label class="w2">Audio URL (auto-filled)<input id="f_audio"></label>
+      <label class="w4">YouTube URL (optional)<input id="f_yt"></label>
+      <div class="w4" style="display:flex;gap:10px"><button class="btn" id="saveBtn" onclick="saveBeat()">SAVE BEAT</button><button class="btn o" onclick="resetForm()">CLEAR</button></div>
     </div>
-  </footer>
+    <div class="sl">ALL BEATS</div><div id="adminList"></div>
+  </div>
+</div>
 
-  <!-- HERO SLIDESHOW -->
-  <script>
-    (function() {
-      const slidesContainer = document.getElementById('heroSlides');
-      const images = [
-        'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1600&q=80',
-        'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1600&q=80',
-        'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1600&q=80',
-        'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1600&q=80',
-        'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1600&q=80'
-      ];
+<div class="md" id="md"><div class="mb" id="mb"></div></div>
 
-      images.forEach((src, i) => {
-        const div = document.createElement('div');
-        div.className = 'hero-slide' + (i === 0 ? ' active' : '');
-        div.style.backgroundImage = `url(${src})`;
-        slidesContainer.appendChild(div);
-      });
+<div id="pbar"><div class="pc" id="pCover"></div><div class="pi"><b id="pTitle"></b><small id="pMeta"></small></div>
+  <button id="pbtn" onclick="toggle()"><svg class="ic "><use href="#i-play"/></svg></button><div class="prog" id="prog"><div id="pf"></div></div><div id="pt">0:00</div></div>
+<audio id="au"></audio>
 
-      let current = 0;
-      const slides = document.querySelectorAll('.hero-slide');
-      if (slides.length > 1) {
-        setInterval(() => {
-          slides[current].classList.remove('active');
-          current = (current + 1) % slides.length;
-          slides[current].classList.add('active');
-        }, 4000);
-      }
-    })();
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+/* ===== CONFIG — paste from Supabase > Project Settings > API ===== */
+const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_ANON_PUBLIC_KEY';
+const WHATSAPP = '254700000000';
+/* ================================================================= */
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const $ = id => document.getElementById(id);
+const IC = n => `<svg class="ic"><use href="#i-${n}"/></svg>`;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const kes = n => Number(n || 0).toLocaleString() + ' KES';
+const FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Crect width='10' height='10' fill='%231a1a1a'/%3E%3C/svg%3E";
+let BEATS = [], genre = '', cur = null;
+$('waMain').href = $('waRail').href = 'https://wa.me/' + WHATSAPP;
+
+function toast(m) { const t = $('toast'); t.textContent = m; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 2800); }
+
+/* hero slideshow */
+(() => {
+  ['photo-1511671782779-c97d3d27a1d4','photo-1470225620780-dba8ba36b745','photo-1493225457124-a3eb161ffa5f','photo-1514320291840-2e0a9bf2a9ae','photo-1516280440614-37939bbacd81'].forEach((p, i) => {
+    const d = document.createElement('div'); d.className = 'slide' + (i ? '' : ' on');
+    d.style.backgroundImage = `url(https://images.unsplash.com/${p}?w=1600&q=80)`; $('slides').appendChild(d);
+  });
+  let c = 0; const s = document.querySelectorAll('.slide');
+  setInterval(() => { s[c].classList.remove('on'); c = (c + 1) % s.length; s[c].classList.add('on'); }, 4500);
+})();
+
+/* ===== STORE ===== */
+async function loadBeats() {
+  const { data, error } = await sb.from('beats').select('*').order('created_at', { ascending: false });
+  if (error) { $('list').innerHTML = `<div class="empty">COULD NOT LOAD BEATS — check Supabase config.<br>${esc(error.message)}</div>`; return; }
+  BEATS = data || [];
+  const pub = BEATS.filter(b => b.status !== 'draft');
+  $('sBeats').textContent = pub.length;
+  $('sPlays').textContent = pub.reduce((a, b) => a + (b.plays || 0), 0).toLocaleString();
+  const gs = [...new Set(pub.map(b => b.genre).filter(Boolean))];
+  $('chips').innerHTML = ['All', ...gs].map(g => `<button class="chip ${(g === 'All' && !genre) || g === genre ? 'on' : ''}" onclick="setGenre('${g === 'All' ? '' : esc(g)}')">${esc(g)}</button>`).join('');
+  const ks = [...new Set(pub.map(b => b.key).filter(Boolean))].sort(); const kv = $('keyF').value;
+  $('keyF').innerHTML = '<option value="">All Keys</option>' + ks.map(k => `<option ${k === kv ? 'selected' : ''}>${esc(k)}</option>`).join('');
+  render(); renderAdmin();
+}
+function setGenre(g) { genre = g; loadBeats(); }
+function render() {
+  const q = $('q').value.toLowerCase(), k = $('keyF').value, s = $('sort').value;
+  let l = BEATS.filter(b => b.status !== 'draft' && (!genre || b.genre === genre) && (!k || b.key === k) &&
+    (!q || [b.title, b.key, b.bpm, b.mood, b.genre, (b.tags || []).join(' ')].join(' ').toLowerCase().includes(q)));
+  l.sort((a, b) => s === 'pop' ? b.plays - a.plays : s === 'lo' ? a.lease_price - b.lease_price : s === 'hi' ? b.lease_price - a.lease_price : (b.featured - a.featured) || (new Date(b.created_at) - new Date(a.created_at)));
+  $('list').innerHTML = l.length ? l.map(b => `
+    <div class="beat ${cur && cur.id === b.id && !$('au').paused ? 'pl' : ''}" id="b_${b.id}">
+      <div class="cv" style="background-image:url('${esc(b.cover_url || FALLBACK)}')" onclick="play('${b.id}')"></div>
+      <div><div class="bt">${esc(b.title)}${b.featured ? '<em>FEATURED</em>' : ''}${b.status === 'sold' ? '<em class="sold">SOLD</em>' : ''}</div>
+        <div class="mono" style="font-size:10px;color:var(--muted)">${esc(b.artist)} · ${b.plays || 0} plays</div>
+        <div class="tg">${b.bpm ? `<i>${b.bpm} BPM</i>` : ''}${b.key ? `<i class="k">${esc(b.key)}</i>` : ''}<i>${esc(b.genre)}</i>${b.mood ? `<i>${esc(b.mood)}</i>` : ''}${(b.tags || []).slice(0, 3).map(t => `<i>#${esc(t)}</i>`).join('')}</div></div>
+      <div class="act" style="display:flex;align-items:center"><div class="pr">LEASE ${kes(b.lease_price)}<br>EXCL. ${kes(b.exclusive_price)}</div>
+        ${b.status === 'sold' ? '<button class="btn o sm" disabled>SOLD OUT</button>' : `<button class="btn" onclick="buy('${b.id}')">${IC('cart')} ${Number(b.lease_price).toLocaleString()} KES</button>`}</div>
+    </div>`).join('') : '<div class="empty">NO BEATS FOUND. TRY ANOTHER SEARCH.</div>';
+}
+['q', 'keyF', 'sort'].forEach(i => $(i).addEventListener('input', render));
+
+/* ===== PLAYER ===== */
+const au = $('au');
+function play(id) {
+  const b = BEATS.find(x => x.id === id); if (!b) return;
+  if (cur && cur.id === id) return toggle();
+  if (!b.audio_url) return toast('No audio uploaded for this beat yet');
+  cur = b; au.src = b.audio_url; au.play();
+  $('pbar').style.display = 'flex'; $('pCover').style.backgroundImage = `url('${b.cover_url || FALLBACK}')`;
+  $('pTitle').textContent = b.title; $('pMeta').textContent = [b.bpm && b.bpm + ' BPM', b.key].filter(Boolean).join(' · ');
+  sb.rpc('increment_plays', { beat_id: id });
+}
+function toggle() { au.paused ? au.play() : au.pause(); }
+au.onplay = au.onpause = () => { $('pbtn').innerHTML = IC(au.paused ? 'play' : 'pause'); render(); };
+au.ontimeupdate = () => { $('pf').style.width = (au.currentTime / au.duration * 100 || 0) + '%'; const f = t => Math.floor(t / 60) + ':' + String(Math.floor(t % 60)).padStart(2, '0'); $('pt').textContent = f(au.currentTime) + ' / ' + f(au.duration || 0); };
+$('prog').onclick = e => { const r = $('prog').getBoundingClientRect(); au.currentTime = (e.clientX - r.left) / r.width * au.duration; };
+
+/* ===== BUY MODAL ===== */
+let lic = 'lease';
+function buy(id) {
+  const b = BEATS.find(x => x.id === id); lic = 'lease';
+  $('mb').innerHTML = `<h3>${esc(b.title)}</h3><p class="mono" style="font-size:11px;color:var(--muted)">${[b.bpm && b.bpm + ' BPM', b.key, b.genre].filter(Boolean).join(' · ')}</p>
+    <div class="lic on" id="l_lease" onclick="pick('lease')"><div>MP3 + WAV LEASE<small>Commercial streaming rights · WAV file</small></div><b>${kes(b.lease_price)}</b></div>
+    <div class="lic" id="l_exclusive" onclick="pick('exclusive')"><div>EXCLUSIVE RIGHTS<small>100% ownership · stems · beat removed from store</small></div><b>${kes(b.exclusive_price)}</b></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn" style="flex:1" onclick="checkout('${b.id}')">${IC('wa')} ORDER VIA WHATSAPP</button><button class="btn o" onclick="$('md').classList.remove('on')">CLOSE</button></div>`;
+  $('md').classList.add('on');
+}
+function pick(t) { lic = t; $('l_lease').classList.toggle('on', t === 'lease'); $('l_exclusive').classList.toggle('on', t === 'exclusive'); }
+function checkout(id) {
+  const b = BEATS.find(x => x.id === id), p = lic === 'lease' ? b.lease_price : b.exclusive_price;
+  const m = `Hey Lehmann! I want to buy the beat "${b.title}" (${b.bpm || '-'} BPM, ${b.key || '-'}) — ${lic.toUpperCase()} license for ${kes(p)}.`;
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(m)}`, '_blank');
+}
+$('md').onclick = e => { if (e.target.id === 'md') $('md').classList.remove('on'); };
+
+/* ===== ADMIN ===== */
+async function login() {
+  const { error } = await sb.auth.signInWithPassword({ email: $('aEmail').value, password: $('aPass').value });
+  if (error) return toast(error.message); checkAdmin();
+}
+async function logout() { await sb.auth.signOut(); checkAdmin(); }
+async function checkAdmin() {
+  const { data: { session } } = await sb.auth.getSession(); let ok = false;
+  if (session) { const r = await sb.rpc('is_admin'); ok = r.data === true; if (!ok) toast('This account is not an admin'); }
+  $('loginBox').style.display = ok ? 'none' : 'grid'; $('panel').style.display = ok ? 'block' : 'none';
+  if (ok) { $('adminInfo').textContent = 'Signed in as ' + session.user.email; loadBeats(); }
+}
+function renderAdmin() {
+  $('adminList').innerHTML = BEATS.map(b => `<div class="ar"><div class="cv" style="background-image:url('${esc(b.cover_url || FALLBACK)}')"></div>
+    <div><b>${esc(b.title)}</b> <span class="mono" style="font-size:10px;color:var(--muted)">${b.status.toUpperCase()}${b.featured ? ' · FEATURED' : ''} · ${b.bpm || '-'} BPM · ${esc(b.key || '-')} · ${b.plays} plays · ${kes(b.lease_price)} / ${kes(b.exclusive_price)}</span></div>
+    <button class="btn o sm" onclick="editBeat('${b.id}')">EDIT</button><button class="btn d sm" onclick="delBeat('${b.id}')">DELETE</button></div>`).join('') || '<div class="empty">NO BEATS YET — ADD YOUR FIRST ONE ABOVE</div>';
+}
+const F = { title: 'f_title', artist: 'f_artist', genre: 'f_genre', bpm: 'f_bpm', key: 'f_key', mood: 'f_mood', lease_price: 'f_lease', exclusive_price: 'f_excl', status: 'f_status', cover_url: 'f_cover', audio_url: 'f_audio', youtube_url: 'f_yt' };
+function resetForm() { document.querySelectorAll('#fm input,#fm textarea').forEach(i => { if (i.type === 'checkbox') i.checked = false; else i.value = ''; }); $('f_artist').value = 'Prod by Lehmann'; $('f_lease').value = 2000; $('f_excl').value = 8000; $('f_status').value = 'published'; $('saveBtn').textContent = 'SAVE BEAT'; }
+function editBeat(id) {
+  const b = BEATS.find(x => x.id === id); resetForm(); $('f_id').value = id;
+  Object.entries(F).forEach(([k, el]) => $(el).value = b[k] ?? ''); $('f_tags').value = (b.tags || []).join(', '); $('f_feat').checked = b.featured;
+  $('saveBtn').textContent = 'UPDATE BEAT'; $('fm').scrollIntoView({ behavior: 'smooth' });
+}
+async function up(bucket, file) {
+  const path = Date.now() + '-' + file.name.replace(/[^\w.\-]/g, '_');
+  const { error } = await sb.storage.from(bucket).upload(path, file, { upsert: true }); if (error) throw error;
+  return sb.storage.from(bucket).getPublicUrl(path).data.publicUrl;
+}
+async function saveBeat() {
+  if (!$('f_title').value.trim()) return toast('Title required');
+  $('saveBtn').textContent = 'SAVING…';
+  try {
+    if ($('f_coverFile').files[0]) $('f_cover').value = await up('beat-covers', $('f_coverFile').files[0]);
+    if ($('f_audioFile').files[0]) $('f_audio').value = await up('beat-audio', $('f_audioFile').files[0]);
+    const row = {}; Object.entries(F).forEach(([k, el]) => { const v = $(el).value.trim(); row[k] = ['bpm', 'lease_price', 'exclusive_price'].includes(k) ? (v === '' ? null : +v) : (v || null); });
+    row.title = $('f_title').value.trim(); row.artist = row.artist || 'Prod by Lehmann'; row.status = $('f_status').value;
+    row.tags = $('f_tags').value.split(',').map(t => t.trim()).filter(Boolean); row.featured = $('f_feat').checked;
+    const id = $('f_id').value;
+    const { error } = id ? await sb.from('beats').update(row).eq('id', id) : await sb.from('beats').insert(row);
+    if (error) throw error; toast(id ? 'Beat updated' : 'Beat added'); resetForm(); loadBeats();
+  } catch (e) { toast(e.message); $('saveBtn').textContent = 'SAVE BEAT'; }
+}
+async function delBeat(id) {
+  if (!confirm('Delete this beat permanently?')) return;
+  const { error } = await sb.from('beats').delete().eq('id', id); error ? toast(error.message) : (toast('Deleted'), loadBeats());
+}
+
+/* ROUTER */
+function route() { const a = location.hash === '#admin'; $('admin').style.display = a ? 'block' : 'none'; $('site').style.display = a ? 'none' : 'block'; if (a) checkAdmin(); }
+window.addEventListener('hashchange', route); route(); loadBeats();
+</script>
 </body>
 </html>
